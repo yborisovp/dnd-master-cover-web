@@ -14,7 +14,7 @@ interface EnemySearchProps {
   onAddEnemy: (newEnemy: EnemyData, enemyLink: string) => void;
 }
 
-const apiUrl = process.env.API_URL || "http://localhost:28809";
+const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:28809";
 
 const EnemySearch: React.FC<EnemySearchProps> = ({ onAddEnemy }) => {
   const [searchTerm, setSearchTerm] = useState('');
