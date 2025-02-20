@@ -20,7 +20,8 @@ a {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   color: $textColor;
-  max-width: 320px; /* So it doesn't stretch too wide in the grid */
+  max-width: 22rem;
+    /* So it doesn't stretch too wide in the grid */
 
   &:hover {
     transform: translateY(-2px);
@@ -223,12 +224,11 @@ a {
   .descriptionSection {
     margin-bottom: 16px;
 
-    label {
-      display: block;
-      font-size: 0.8rem;
-      color: #ccc;
-      margin-bottom: 4px;
-    }
+    h4 {
+        display: flex;
+        align-items: center;
+        gap: 2px;
+      }
 
     .descriptionInput {
       width: 100%;
@@ -243,6 +243,7 @@ a {
     }
 
     .description {
+    
       margin: 0;
       font-size: 0.95rem;
       font-style: italic;
@@ -252,6 +253,9 @@ a {
 
   .abilities {
     h3 {
+      display: flex;
+        align-items: center;
+        gap: 2px;
       margin-bottom: 8px;
       color: $primaryColor;
       font-size: 1rem;

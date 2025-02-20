@@ -1,52 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import GridLayout, { Layout } from 'react-grid-layout';
 import Enemy, { EnemyData } from '../Cards/Enemy';
 import styles from './EnemyGrid.module.scss';
-import EnemySearch from '../search/EnemySearch';
-import { link } from 'fs';
 
-const EnemyGrid: React.FC = () => {
-  const [enemies, setEnemies] = useState<EnemyData[]>([]);
-  const [layouts, setLayouts] = useState<Layout[]>([]);
-  const [enemyLink, setEnemyLink] = useState("");
-  const [showSearchModal, setShowSearchModal] = useState(false);
+interface EnemyGridProps {
+  enemies: EnemyData[];
+  layouts: Layout[];
+  enemyLink: string;
+  onLayoutChange: (layout: Layout[]) => void;
+}
 
-  // Add a new enemy and corresponding layout item
-  const addEnemyFromSearch = (newEnemy: EnemyData, enemyLink: string) => {
-    const newIndex = enemies.length;
-    setEnemyLink(enemyLink);
-    setEnemies([...enemies, newEnemy]);
-    setLayouts([
-      ...layouts,
-      {
-        i: `${newIndex}`,
-        x: (newIndex * 2) % 12,
-        y: 0,
-        w: 3,
-        h: 5,
-      },
-    ]);
-    setShowSearchModal(false); // Close the modal after selection
-  };
-
-
-  const onLayoutChange = (layout: Layout[]) => {
-    setLayouts(layout);
-  };
-
+const EnemyGrid: React.FC<EnemyGridProps> = ({ enemies, layouts, enemyLink, onLayoutChange }) => {
   return (
     <div className={styles.container}>
-      <button className={styles.addButton}onClick={() => setShowSearchModal(true)}>
-        Add Enemy
-      </button>
-
       <GridLayout
-        className="layout"
+        className={styles.layout}
         layout={layouts}
         cols={12}
         rowHeight={40}
-        width={1600}           // Increase as needed for more horizontal space
-        compactType={null}    // No auto-compacting
+        width={1600}
+        compactType={null}
         isDraggable={true}
         isResizable={true}
         onLayoutChange={onLayoutChange}
@@ -54,23 +27,10 @@ const EnemyGrid: React.FC = () => {
       >
         {enemies.map((enemy, index) => (
           <div key={index}>
-            <Enemy enemy={enemy} link={enemyLink}/>
+            <Enemy enemy={enemy} link={enemyLink} />
           </div>
         ))}
       </GridLayout>
-      {showSearchModal && (
-        <div className={styles.modalBackdrop}>
-          <div className={styles.modal}>
-            <button
-              className={styles.closeButton}
-              onClick={() => setShowSearchModal(false)}
-            >
-              ×
-            </button>
-            <EnemySearch onAddEnemy={addEnemyFromSearch} />
-          </div>
-        </div>
-      )}
     </div>
   );
 };

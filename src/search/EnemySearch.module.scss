@@ -64,6 +64,9 @@ $dangerExtreme: #bd93f9;
 }
 
 .resultsList {
+  height: fit-content;
+    max-height: 28rem;
+    min-height: 2rem;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -77,6 +80,7 @@ $dangerExtreme: #bd93f9;
   }
   &::-webkit-scrollbar-track {
     background: $inputBg;
+    
     border-radius: 4px;
   }
   &::-webkit-scrollbar-thumb {

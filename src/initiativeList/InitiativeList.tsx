@@ -26,7 +26,7 @@ const InitiativeList: React.FC = () => {
     { id: '2', name: 'Orc Captain', initiative: 18, type: 'enemy' },
     { id: '3', name: 'Aragorn', initiative: 22, type: 'player' },
   ]);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [isEditMode, setIsEditMode] = useState(false);
   // Use a separate state for edited items so that we can reorder/edit without immediately affecting the main list
   const [editedItems, setEditedItems] = useState<InitiativeItem[]>(items);

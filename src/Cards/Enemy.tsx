@@ -1,18 +1,19 @@
-import React, { useState, ChangeEvent } from 'react';
-import styles from './Enemy.module.scss';
+import React, { ChangeEvent, useState } from "react";
 import {
-  FaFire,
-  FaSnowflake,
-  FaBolt,
-  FaFistRaised,
-  FaTint,
-  FaQuestion,
   FaArrowsAlt,
+  FaBolt,
   FaEdit,
-  FaSave,
+  FaFire,
+  FaFistRaised,
+  FaMinus,
   FaPlus,
-  FaMinus
-} from 'react-icons/fa';
+  FaQuestion,
+  FaSave,
+  FaSnowflake,
+  FaTint,
+} from "react-icons/fa";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import styles from "./Enemy.module.scss";
 
 export interface Ability {
   weaponType: string;
@@ -23,7 +24,7 @@ export interface Ability {
 }
 
 export interface EnemyData {
-  id: number
+  id: number;
   name: string;
   dangerLevel: number;
   hp: number;
@@ -41,19 +42,25 @@ export interface EnemyProps {
 
 const getDamageIcon = (damageType: string | null) => {
   switch (damageType?.toLowerCase()) {
-    case 'acid': return <FaTint />;
-    case 'fire': return <FaFire />;
-    case 'cold': return <FaSnowflake />;
-    case 'electric': return <FaBolt />;
-    case 'slashing': return <FaFistRaised />;
-    default: return <FaQuestion />;
+    case "acid":
+      return <FaTint />;
+    case "fire":
+      return <FaFire />;
+    case "cold":
+      return <FaSnowflake />;
+    case "electric":
+      return <FaBolt />;
+    case "slashing":
+      return <FaFistRaised />;
+    default:
+      return <FaQuestion />;
   }
 };
 
 export const parseFraction = (value: string | number): number => {
-  if (typeof value === 'number') return value;
-  if (value.includes('/')) {
-    const parts = value.split('/');
+  if (typeof value === "number") return value;
+  if (value.includes("/")) {
+    const parts = value.split("/");
     const numerator = parseFloat(parts[0]);
     const denominator = parseFloat(parts[1]);
     if (!isNaN(numerator) && !isNaN(denominator) && denominator !== 0) {
@@ -77,7 +84,6 @@ export const dangerLevelStyle = (level: string | number): string => {
   }
 };
 
-
 const Enemy: React.FC<EnemyProps> = ({ enemy, onUpdate, link }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editableEnemy, setEditableEnemy] = useState<EnemyData>(enemy);
@@ -85,6 +91,10 @@ const Enemy: React.FC<EnemyProps> = ({ enemy, onUpdate, link }) => {
   // For controlling the Damage/Heal inputs
   const [damageValue, setDamageValue] = useState<number>(0);
   const [healValue, setHealValue] = useState<number>(0);
+
+  // New states for collapsible sections
+  const [isDescriptionCollapsed, setIsDescriptionCollapsed] = useState(true);
+  const [isAbilitiesCollapsed, setIsAbilitiesCollapsed] = useState(true);
 
   // Toggle between edit and view mode
   const handleToggleEdit = () => {
@@ -95,20 +105,26 @@ const Enemy: React.FC<EnemyProps> = ({ enemy, onUpdate, link }) => {
   };
 
   // Handle text/number changes for the editable enemy fields
-  const handleInputChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setEditableEnemy(prev => ({
+    setEditableEnemy((prev) => ({
       ...prev,
-      [name]: name === 'hp' ? Number(value) : value,
+      [name]: name === "hp" ? Number(value) : value,
     }));
   };
 
   // Handle ability field changes
-  const handleAbilityChange = (index: number, field: keyof Ability, value: string) => {
+  const handleAbilityChange = (
+    index: number,
+    field: keyof Ability,
+    value: string
+  ) => {
     const updatedAbilities = editableEnemy.abilities.map((ability, i) =>
       i === index ? { ...ability, [field]: value } : ability
     );
-    setEditableEnemy(prev => ({ ...prev, abilities: updatedAbilities }));
+    setEditableEnemy((prev) => ({ ...prev, abilities: updatedAbilities }));
   };
 
   // Add damage to HP
@@ -116,7 +132,7 @@ const Enemy: React.FC<EnemyProps> = ({ enemy, onUpdate, link }) => {
     if (!damageValue) return;
     const maxHp = editableEnemy.maxHp || editableEnemy.hp;
     const newHp = Math.max(0, editableEnemy.hp - damageValue);
-    setEditableEnemy(prev => ({ ...prev, hp: newHp }));
+    setEditableEnemy((prev) => ({ ...prev, hp: newHp }));
     setDamageValue(0);
   };
 
@@ -125,11 +141,10 @@ const Enemy: React.FC<EnemyProps> = ({ enemy, onUpdate, link }) => {
     if (!healValue) return;
     const maxHp = editableEnemy.maxHp || editableEnemy.hp;
     const newHp = Math.min(maxHp, editableEnemy.hp + healValue);
-    setEditableEnemy(prev => ({ ...prev, hp: newHp }));
+    setEditableEnemy((prev) => ({ ...prev, hp: newHp }));
     setHealValue(0);
   };
 
-  
   // Determine max HP if not explicitly provided
   const maxHp = editableEnemy.maxHp || editableEnemy.hp;
 
@@ -151,7 +166,9 @@ const Enemy: React.FC<EnemyProps> = ({ enemy, onUpdate, link }) => {
               className={styles.nameInput}
             />
           ) : (
-            <a href={link} target='blank'><h2 className={styles.name}>{editableEnemy.name}</h2></a>
+            <a href={link} target="blank">
+              <h2 className={styles.name}>{editableEnemy.name}</h2>
+            </a>
           )}
         </div>
 
@@ -159,7 +176,9 @@ const Enemy: React.FC<EnemyProps> = ({ enemy, onUpdate, link }) => {
           {/* Danger Level + Edit/Save in the top-right */}
           <span
             className={`${styles.dangerLevel} ${
-              styles[`dangerLevel--${dangerLevelStyle(editableEnemy.dangerLevel)}`]
+              styles[
+                `dangerLevel--${dangerLevelStyle(editableEnemy.dangerLevel)}`
+              ]
             }`}
           >
             {editableEnemy.dangerLevel}
@@ -249,76 +268,110 @@ const Enemy: React.FC<EnemyProps> = ({ enemy, onUpdate, link }) => {
 
       {/* DESCRIPTION */}
       <div className={styles.descriptionSection}>
-        <label>Description</label>
-        {isEditing ? (
-          <textarea
-            name="description"
-            value={editableEnemy.description}
-            onChange={handleInputChange}
-            className={styles.descriptionInput}
-          />
-        ) : (
-          <p className={styles.description}>{editableEnemy.description}</p>
-        )}
+        <h4
+          onClick={() => setIsDescriptionCollapsed(!isDescriptionCollapsed)}
+          style={{ cursor: "pointer" }}
+        >
+          Description{" "}
+          {isDescriptionCollapsed ? <IoIosArrowDown /> : <IoIosArrowUp />}
+        </h4>
+        {!isDescriptionCollapsed &&
+          (isEditing ? (
+            <textarea
+              name="description"
+              value={editableEnemy.description}
+              onChange={handleInputChange}
+              className={styles.descriptionInput}
+            />
+          ) : (
+            <p className={styles.description}>{editableEnemy.description}</p>
+          ))}
       </div>
 
       {/* ABILITIES */}
       <div className={styles.abilities}>
-        <h3>Abilities</h3>
-        {editableEnemy.abilities.map((ability, index) => (
-          <div key={index} className={styles.ability}>
-            <div className={styles.abilityHeader}>
+        <h3
+          onClick={() => setIsAbilitiesCollapsed(!isAbilitiesCollapsed)}
+          style={{ cursor: "pointer" }}
+        >
+          Abilities{" "}
+          {isAbilitiesCollapsed ? <IoIosArrowDown /> : <IoIosArrowUp />}
+        </h3>
+        {!isAbilitiesCollapsed &&
+          editableEnemy.abilities.map((ability, index) => (
+            <div key={index} className={styles.ability}>
+              <div className={styles.abilityHeader}>
+                {isEditing ? (
+                  <>
+                    <input
+                      type="text"
+                      name="weaponType"
+                      value={ability.weaponType}
+                      onChange={(e) =>
+                        handleAbilityChange(index, "weaponType", e.target.value)
+                      }
+                      className={styles.abilityInput}
+                      placeholder="Weapon Type"
+                    />
+                    <input
+                      type="text"
+                      name="diceRoll"
+                      value={ability.hitDiceRoll ?? ""}
+                      onChange={(e) =>
+                        handleAbilityChange(
+                          index,
+                          "hitDiceRoll",
+                          e.target.value
+                        )
+                      }
+                      className={styles.abilityInput}
+                      placeholder="Dice Roll"
+                    />
+                    <input
+                      type="text"
+                      name="damageType"
+                      value={ability.damageType ?? ""}
+                      onChange={(e) =>
+                        handleAbilityChange(index, "damageType", e.target.value)
+                      }
+                      className={styles.abilityInput}
+                      placeholder="Damage Type"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <span className={styles.weaponType}>
+                      {ability.weaponType}
+                    </span>
+                    <span className={styles.diceRoll}>
+                      {ability.attackDiceRoll}
+                    </span>
+                    <span className={styles.diceRoll}>
+                      {ability.hitDiceRoll}
+                    </span>
+                    <span className={styles.damageType}>
+                      {getDamageIcon(ability.damageType)} {ability.damageType}
+                    </span>
+                  </>
+                )}
+              </div>
               {isEditing ? (
-                <>
-                  <input
-                    type="text"
-                    name="weaponType"
-                    value={ability.weaponType}
-                    onChange={(e) => handleAbilityChange(index, 'weaponType', e.target.value)}
-                    className={styles.abilityInput}
-                    placeholder="Weapon Type"
-                  />
-                  <input
-                    type="text"
-                    name="diceRoll"
-                    value={ability.hitDiceRoll ?? ""}
-                    onChange={(e) => handleAbilityChange(index, 'hitDiceRoll', e.target.value)}
-                    className={styles.abilityInput}
-                    placeholder="Dice Roll"
-                  />
-                  <input
-                    type="text"
-                    name="damageType"
-                    value={ability.damageType ?? ""}
-                    onChange={(e) => handleAbilityChange(index, 'damageType', e.target.value)}
-                    className={styles.abilityInput}
-                    placeholder="Damage Type"
-                  />
-                </>
+                <textarea
+                  name="abilityDescription"
+                  value={ability.description}
+                  onChange={(e) =>
+                    handleAbilityChange(index, "description", e.target.value)
+                  }
+                  className={styles.abilityDescriptionInput}
+                  placeholder="Ability Description"
+                />
               ) : (
-                <>
-                  <span className={styles.weaponType}>{ability.weaponType}</span>
-                  <span className={styles.diceRoll}>{ability.attackDiceRoll}</span>
-                  <span className={styles.diceRoll}>{ability.hitDiceRoll}</span>
-                  <span className={styles.damageType}>
-                    {getDamageIcon(ability.damageType)} {ability.damageType}
-                  </span>
-                </>
+                <p className={styles.abilityDescription}>
+                  {ability.description}
+                </p>
               )}
             </div>
-            {isEditing ? (
-              <textarea
-                name="abilityDescription"
-                value={ability.description}
-                onChange={(e) => handleAbilityChange(index, 'description', e.target.value)}
-                className={styles.abilityDescriptionInput}
-                placeholder="Ability Description"
-              />
-            ) : (
-              <p className={styles.abilityDescription}>{ability.description}</p>
-            )}
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
