@@ -1,0 +1,126 @@
+/* EnemySearch.module.scss */
+
+$bg: #282a36;
+$textColor: #f8f8f2;
+$accent: #ff79c6;
+$inputBg: #44475a;
+$inputBorder: #6272a4;
+$dangerLow: #50fa7b;
+$dangerMed: #f1fa8c;
+$dangerHigh: #ff5555;
+$dangerExtreme: #bd93f9;
+
+.container {
+  padding: 16px;
+  background: $bg;
+  border-radius: 8px;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+  color: $accent;
+  text-align: center;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.searchInput {
+  flex: 1;
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid $inputBorder;
+  border-radius: 4px;
+  background: $inputBg;
+  color: $textColor;
+  outline: none;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: $accent;
+  }
+}
+
+.selectInput {
+  padding: 10px;
+  font-size: 1rem;
+  border: 2px solid $inputBorder;
+  border-radius: 4px;
+  background: $inputBg;
+  color: $textColor;
+  outline: none;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: $accent;
+  }
+}
+
+.resultsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  height: 43em;
+
+  /* Custom scrollbar styles */
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: $inputBg;
+    border-radius: 4px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: $accent;
+    border-radius: 4px;
+  }
+
+
+  .dangerLevel {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+
+    &--low { background: $dangerLow; color: #000; }
+    &--medium { background: $dangerMed; color: #000; }
+    &--high { background: $dangerHigh; }
+    &--extreme { background: $dangerExtreme; }
+  }
+
+}
+
+.resultItem {
+  padding: 8px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+  background: $inputBg;
+  color: $textColor;
+  display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+	align-content: space-between;
+  cursor: pointer;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: darken($inputBg, 10%);
+  }
+}
+
+.enemyName {
+  font-weight: bold;
+  margin-right: 8px;
+}

@@ -1,0 +1,197 @@
+$bg: #44475a;         
+$bgHover: #515361;    
+$textColor: #f8f8f2;
+$primaryColor: #ff79c6; 
+$dangerLow: #50fa7b;    
+$dangerMed: #f1fa8c;    
+$dangerHigh: #ff5555;   
+$dangerExtreme: #bd93f9;
+
+.initiativeList {
+  background: $bg; // e.g., #2b2b2b
+  border-radius: 8px;
+  margin: 0.5rem 0;
+  color: $textColor; // e.g., #fff
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+
+  &.collapsed {
+    .listContainer {
+      max-height: 0;
+      opacity: 0;
+      pointer-events: none; // to avoid confusion
+    }
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background: darken($bg, 3%);
+  border-radius: 8px 8px 0 0;
+
+  .headerContent {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-grow: 1;
+  }
+
+  .dragHandleIcon {
+    font-size: 1rem;
+    color: $primaryColor; 
+    cursor: default; // or pointer, but not move if this is not the actual handle
+    &:hover {
+      color: lighten($primaryColor, 10%);
+    }
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 1rem;
+    color: $primaryColor;
+  }
+}
+
+.activePerson {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+  padding: 0.25rem 0.5rem;
+  background: $bgHover;
+  border-radius: 4px;
+
+  svg {
+    color: $primaryColor;
+  }
+
+  .initiativeBadge {
+    background: $dangerExtreme;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+    font-weight: bold;
+  }
+}
+
+.controls {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.iconButton {
+  background: transparent;
+  border: 2px solid $primaryColor;
+  color: $primaryColor;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  
+  &:hover {
+    background: $primaryColor;
+    color: $bg;
+  }
+}
+
+.listContainer {
+  max-height: 1000px; // to animate collapse
+  transition: all 0.3s ease;
+  overflow: hidden;
+  padding: 0.5rem 1rem;
+}
+
+.tableHeader {
+  display: grid;
+  grid-template-columns: 50px 80% 1fr; 
+  gap: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  margin-bottom: 0.5rem;
+  background: darken($bg, 5%);
+  border-radius: 4px;
+  font-weight: bold;
+  color: $primaryColor;
+}
+
+.listItem {
+  display: grid;
+  grid-template-columns: 50px 80% 1fr; 
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  margin-bottom: 4px;
+  background: $bg;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  border-left: 2px solid transparent;
+
+  &.player {
+    border-color: $dangerLow;
+  }
+
+  &.enemy {
+    border-color: $dangerHigh;
+  }
+
+  &.dragging {
+    background: $bgHover;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transform: scale(1.01);
+  }
+
+  &:hover {
+    background: $bgHover;
+  }
+}
+
+.dragHandle {
+  font-size: 1rem;
+  color: $primaryColor;
+  cursor: move;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: lighten($primaryColor, 10%);
+  }
+}
+
+.typeSelect, .nameInput, .initiativeInput {
+  background: transparent;
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid $primaryColor;
+  color: $textColor;
+  padding: 2px;
+  font-size: 0.9rem;
+  outline: none;
+  
+  &:focus {
+    border-bottom-color: lighten($primaryColor, 10%);
+  }
+}
+
+.typeBadge {
+  svg {
+    font-size: 1.2rem;
+  }
+}
+
+.name {
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.initiative {
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+}

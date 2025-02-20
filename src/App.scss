@@ -1,0 +1,17 @@
+@import './styles/typography';
+
+// Other styles
+.App {
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+  background: #282a36;
+  position: relative;
+  overflow: auto;
+
+  /* Subtle grid lines */
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+  background-size: 20px 20px;
+}

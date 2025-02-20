@@ -1,0 +1,337 @@
+/* Enemy.module.scss */
+/* Dracula-ish colors */
+$bg: #44475a;         
+$bgHover: #515361;    
+$textColor: #f8f8f2;
+$primaryColor: #ff79c6; 
+$dangerLow: #50fa7b;    
+$dangerMed: #f1fa8c;    
+$dangerHigh: #ff5555;   
+$dangerExtreme: #bd93f9;
+
+a {
+  text-decoration: none;
+}
+.enemy {
+  background: $bg;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: $textColor;
+  max-width: 320px; /* So it doesn't stretch too wide in the grid */
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+
+    .leftGroup {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .dragHandle {
+        /* The handle recognized by react-grid-layout */
+        cursor: move;
+        font-size: 1.2rem;
+        color: lighten($textColor, 20%);
+      }
+
+      .name {
+        font-size: 1.2rem;
+        font-weight: bold;
+        margin: 0;
+        color: $primaryColor;
+      }
+
+      .nameInput {
+        font-size: 1.2rem;
+        font-weight: bold;
+        border: none;
+        background: transparent;
+        color: $primaryColor;
+        border-bottom: 2px solid $primaryColor;
+        outline: none;
+      }
+    }
+
+    .rightGroup {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      .dangerLevel {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+
+        &--low { background: $dangerLow; color: #000; }
+        &--medium { background: $dangerMed; color: #000; }
+        &--high { background: $dangerHigh; }
+        &--extreme { background: $dangerExtreme; }
+      }
+
+      .editButton {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: transparent;
+        border: 2px solid $primaryColor;
+        color: $primaryColor;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background 0.2s ease;
+
+        &:hover {
+          background: $primaryColor;
+          color: #000;
+        }
+      }
+    }
+  }
+
+  .stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+
+    .stat {
+      text-align: center;
+      flex: 1;
+
+      label {
+        display: block;
+        font-size: 0.75rem;
+        color: #ccc;
+        margin-bottom: 4px;
+      }
+
+      .hp {
+        font-size: 1.2rem;
+        font-weight: bold;
+        color: $dangerHigh;
+      }
+
+      .class {
+        font-size: 1.2rem;
+        color: $dangerLow;
+      }
+
+      .hpInput,
+      .classInput {
+        width: 60px;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid $primaryColor;
+        color: $textColor;
+        font-size: 1rem;
+        text-align: center;
+        outline: none;
+      }
+    }
+
+    .healthBar {
+      width: 100px;
+      height: 10px;
+      background: #6272a4;
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 4px auto;
+
+      .healthBarFill {
+        height: 100%;
+        background: $dangerHigh;
+        transition: width 0.3s ease;
+      }
+    }
+  }
+
+  .hpControls {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 16px;
+
+    .damageControl,
+    .healControl {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .damageInput,
+    .healInput {
+      width: 60px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid #ff5555; 
+      color: $textColor;
+      text-align: center;
+      font-size: 1rem;
+      outline: none;
+
+      &::placeholder {
+        color: lighten($textColor, 20%);
+      }
+    }
+
+    .damageButton,
+    .healButton {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: transparent;
+      border: 2px solid #ff5555; 
+      color: #ff5555;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: #ff5555;
+        color: #000;
+      }
+    }
+
+       .healInput {
+         border-bottom-color: $dangerLow;
+       }
+       .healButton {
+         border-color: $dangerLow;
+         color: $dangerLow;
+         &:hover {
+           background: $dangerLow;
+           color: #000;
+         }
+       }
+    
+  }
+
+  .descriptionSection {
+    margin-bottom: 16px;
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      color: #ccc;
+      margin-bottom: 4px;
+    }
+
+    .descriptionInput {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid $primaryColor;
+      color: $textColor;
+      padding: 4px;
+      resize: vertical;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    .description {
+      margin: 0;
+      font-size: 0.95rem;
+      font-style: italic;
+      color: lighten($textColor, 15%);
+    }
+  }
+
+  .abilities {
+    h3 {
+      margin-bottom: 8px;
+      color: $primaryColor;
+      font-size: 1rem;
+    }
+
+    .ability {
+      background: $bgHover;
+      border-radius: 6px;
+      padding: 10px;
+      margin-bottom: 10px;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background: lighten($bgHover, 5%);
+      }
+
+      .abilityHeader {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 8px;
+
+        .weaponType {
+          font-weight: bold;
+          color: $primaryColor;
+          margin-right: 8px;
+        }
+
+        .diceRoll {
+          background: #282a36;
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-family: monospace;
+          margin-right: 8px;
+        }
+
+        .damageType {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          color: $dangerHigh;
+          font-style: italic;
+        }
+
+        .abilityInput {
+          background: transparent;
+          border: none;
+          border-bottom: 2px solid #ccc;
+          color: $textColor;
+          padding: 2px;
+          margin-right: 8px;
+          outline: none;
+
+          &:focus {
+            border-bottom-color: $primaryColor;
+          }
+        }
+      }
+
+      .abilityDescription {
+        margin: 0;
+        font-size: 0.9rem;
+        color: lighten($textColor, 15%);
+      }
+
+      .abilityDescriptionInput {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 2px solid #ccc;
+        color: $textColor;
+        padding: 4px;
+        resize: vertical;
+        outline: none;
+        font-size: 0.9rem;
+
+        &:focus {
+          border-bottom-color: $primaryColor;
+        }
+      }
+    }
+  }
+}
