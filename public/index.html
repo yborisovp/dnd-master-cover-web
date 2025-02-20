@@ -1,43 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    
+    <!-- Primary SEO -->
+    <title>DnD Master Cover - онлайн поле сражений для мастера</title>
+    <meta name="description" content="Откройте для себя онлайн поле сражений DnD Master Cover, созданную с использованием парсера dnd.su. Идеально подходит для русскоязычных мастеров Dungeons &amp; Dragons, которые искали онлайн поле сражений." />
+    <meta name="keywords" content="DnD, Dungeons and Dragons, парсер dnd.su, ширма мастера, обложка мастера, мастер, RPG, русская игра, русское DnD" />
+    <meta name="author" content="Created by t.me/yborisovp_stream" />
+    <meta name="robots" content="index, follow" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:title" content="DnD Master Cover - Парсер dnd.su" />
+    <meta property="og:description" content="DnD Master Cover - онлайн поле сражений для мастера" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://dndmastercover.ru" />
+    <meta property="og:image" content="https://dndmastercover.ru/og-image.jpg" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="DnD Master Cover - онлайн поле сражений для мастера" />
+    <meta name="twitter:description" content="DnD Master Cover - онлайн поле сражений для мастера" />
+    <meta name="twitter:creator" content="t.me/yborisovp_stream" />
+
+    <!-- Favicon and App Icons -->
+    <link rel="icon" href="%PUBLIC_URL%/dice.ico" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/dice.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- Structured Data for SEO -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "name": "DnD Master Cover - онлайн поле сражений для мастера",
+        "url": "https://dndmastercover.ru",
+        "author": {
+          "@type": "Person",
+          "name": "t.me/yborisovp_stream"
+        },
+        "description": "DnD Master Cover - онлайн поле сражений, где мастер может просто и быстро создать абсолютно любых врагов, представленных на его поле боя."
+      }
+    </script>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>Для работы данного приложения необходимо включить JavaScript.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
+    
+    <!-- Footer with Copyright -->
+    <footer style="text-align: center; padding: 1rem 0; font-size: 0.9rem; color: #666;">
+      &copy; 2025 DnD Master Cover. Created by t.me/yborisovp_stream. All rights reserved.
+    </footer>
   </body>
 </html>
