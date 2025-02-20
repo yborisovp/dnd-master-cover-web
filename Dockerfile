@@ -13,7 +13,7 @@ COPY package.json ./
 COPY yarn.lock ./
 
 # rebuild node-sass
-RUN yarn add node-sass
+RUN yarn add sass
 
 RUN yarn
 
