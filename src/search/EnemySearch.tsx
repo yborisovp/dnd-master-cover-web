@@ -14,6 +14,8 @@ interface EnemySearchProps {
   onAddEnemy: (newEnemy: EnemyData, enemyLink: string) => void;
 }
 
+const apiUrl = process.env.API_URL || "http://localhost:28809";
+
 const EnemySearch: React.FC<EnemySearchProps> = ({ onAddEnemy }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [dangerFilter, setDangerFilter] = useState('');
@@ -38,7 +40,7 @@ const EnemySearch: React.FC<EnemySearchProps> = ({ onAddEnemy }) => {
           params.append('dangerLevel', dangerFilter);
         }
         const data = await ky
-          .get(`http://localhost:28809/enemy/search?${params.toString()}`)
+          .get(`${apiUrl}/enemy/search?${params.toString()}`)
           .json<ApiEnemy[]>();
         setFiltered(data);
       } catch (error) {
@@ -67,7 +69,7 @@ const EnemySearch: React.FC<EnemySearchProps> = ({ onAddEnemy }) => {
         link: selected.link,
       });
       const data = await ky
-        .get(`http://localhost:28809/enemy?${params.toString()}`)
+        .get(`${apiUrl}/enemy?${params.toString()}`)
         .json<EnemyData>();
       onAddEnemy(data, `https://dnd.su/bestiary/${selected.link}`);
     } catch (error) {
