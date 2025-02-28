@@ -1,53 +1,48 @@
-import React, { useEffect, useState, ChangeEvent } from 'react';
-import ky from 'ky';
-import { FaArrowUp, FaArrowDown, FaBars } from 'react-icons/fa';
-import styles from './EnemySearch.module.scss';
-import { dangerLevelStyle, EnemyData } from '../Cards/Enemy';
+import React, { ChangeEvent, useEffect, useState } from "react";
 
-interface ApiEnemy {
-  name: string;
-  danger: number;
-  link: string;
-}
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+
+import styles from "./EnemySearch.module.scss";
+import { dangerLevelStyle } from "../enemy/Enemy";
+import {
+  EnemySearchRequest,
+  getEnemyAsync,
+  getEnemyListAsync,
+} from "../redux/thunx";
+import { ApiEnemy, EnemyData } from "../models/enemy";
+import { selectApiEnemies } from "../redux/enemiesSlice";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 interface EnemySearchProps {
   onAddEnemy: (newEnemy: EnemyData, enemyLink: string) => void;
 }
 
-const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:28809";
-
 const EnemySearch: React.FC<EnemySearchProps> = ({ onAddEnemy }) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [dangerFilter, setDangerFilter] = useState('');
-  const [dangerSort, setDangerSort] = useState('asc'); // 'asc' or 'desc'
-  const [filtered, setFiltered] = useState<ApiEnemy[]>([]);
+  // Use the custom typed dispatch to accept thunk actions.
+  const dispatch = useAppDispatch();
+  // Selector to retrieve the filtered enemy list from the store.
+  const filtered = useAppSelector(selectApiEnemies);
 
-  // Query API whenever searchTerm, dangerFilter, or dangerSort changes
+  const [searchTerm, setSearchTerm] = useState("");
+  // dangerFilter remains a string; if empty, it won't be sent to the API.
+  const [dangerFilter, setDangerFilter] = useState("");
+  // Explicitly type dangerSort as "asc" or "desc"
+  const [dangerSort, setDangerSort] = useState<"asc" | "desc">("asc");
+
   useEffect(() => {
     const term = searchTerm.toLowerCase().trim();
+    // Optionally, clear search results if both searchTerm and dangerFilter are empty.
     if (!term && !dangerFilter) {
-      setFiltered([]);
       return;
     }
-    
-    (async () => {
-      try {
-        const params = new URLSearchParams({
-          q: term,
-          sort: dangerSort,
-        });
-        if (dangerFilter) {
-          params.append('dangerLevel', dangerFilter);
-        }
-        const data = await ky
-          .get(`${apiUrl}/enemy/search?${params.toString()}`)
-          .json<ApiEnemy[]>();
-        setFiltered(data);
-      } catch (error) {
-        console.error('Error fetching enemies:', error);
-      }
-    })();
-  }, [searchTerm, dangerFilter, dangerSort]);
+    // Dispatch the search thunk. Note: if dangerFilter is empty, we send undefined.
+    const request: EnemySearchRequest = {
+      query: term,
+      danger: dangerFilter || undefined,
+      sort: dangerSort,
+    };
+    dispatch(getEnemyListAsync(request));
+  }, [searchTerm, dangerFilter, dangerSort, dispatch]);
 
   const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -55,31 +50,23 @@ const EnemySearch: React.FC<EnemySearchProps> = ({ onAddEnemy }) => {
 
   const handleDangerFilterChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setDangerFilter(e.target.value);
-    console.log("Selected Danger Filter:", e.target.value);
   };
 
   const handleDangerSortChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    setDangerSort(e.target.value);
-    console.log("Selected Danger Sort:", e.target.value);
+    // Ensure the sort value is lower-case "asc" or "desc"
+    setDangerSort(e.target.value.toLowerCase() as "asc" | "desc");
   };
 
   const handleSelectEnemy = async (selected: ApiEnemy) => {
-    try {
-      const params = new URLSearchParams({
-        link: selected.link,
+    dispatch(getEnemyAsync(selected.link))
+      .unwrap()
+      .then((e) => {
+        onAddEnemy(e, `https://dnd.su/bestiary/${selected.link}`);
       });
-      const data = await ky
-        .get(`${apiUrl}/enemy?${params.toString()}`)
-        .json<EnemyData>();
-      onAddEnemy(data, `https://dnd.su/bestiary/${selected.link}`);
-    } catch (error) {
-      console.error('Error fetching detailed enemy data:', error);
-    }
   };
 
-  // Determine sort icon based on dangerSort value
-  const sortIcon =
-    dangerSort === 'asc' ? <FaArrowDown /> : dangerSort === 'desc' ? <FaArrowUp /> : <FaBars />;
+  // Determine the sort icon based on the current dangerSort value.
+  const sortIcon = dangerSort === "asc" ? <FaArrowDown /> : <FaArrowUp />;
 
   return (
     <div className={styles.container}>
@@ -99,7 +86,7 @@ const EnemySearch: React.FC<EnemySearchProps> = ({ onAddEnemy }) => {
         >
           <option value="">All Danger Levels</option>
           <option value="0">0</option>
-          <option value="0-1">{"<"} 1</option>
+          <option value="0-1">&lt; 1</option>
           <option value="1-5">1-5</option>
           <option value="6-10">6-10</option>
           <option value="11-15">11-15</option>
@@ -111,12 +98,8 @@ const EnemySearch: React.FC<EnemySearchProps> = ({ onAddEnemy }) => {
           onChange={handleDangerSortChange}
           className={styles.selectInput}
         >
-          <option value="Asc">
-            Danger Ascending {sortIcon}
-          </option>
-          <option value="Desc">
-            Danger Descending {sortIcon}
-          </option>
+          <option value="asc">Danger Ascending {sortIcon}</option>
+          <option value="desc">Danger Descending {sortIcon}</option>
         </select>
       </div>
       <ul className={styles.resultsList}>

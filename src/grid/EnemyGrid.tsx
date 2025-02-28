@@ -1,16 +1,20 @@
 import React from 'react';
-import GridLayout, { Layout } from 'react-grid-layout';
-import Enemy, { EnemyData } from '../Cards/Enemy';
-import styles from './EnemyGrid.module.scss';
+import GridLayout, { Layout } from "react-grid-layout";
+import styles from "./EnemyGrid.module.scss";
+import { EnemyData } from "../models/enemy";
+import Enemy from "../enemy/Enemy";
 
 interface EnemyGridProps {
-  enemies: EnemyData[];
+  enemies: { enemy: EnemyData; enemyLink: string }[];
   layouts: Layout[];
-  enemyLink: string;
   onLayoutChange: (layout: Layout[]) => void;
 }
 
-const EnemyGrid: React.FC<EnemyGridProps> = ({ enemies, layouts, enemyLink, onLayoutChange }) => {
+const EnemyGrid: React.FC<EnemyGridProps> = ({
+  enemies,
+  layouts,
+  onLayoutChange,
+}) => {
   return (
     <div className={styles.container}>
       <GridLayout
@@ -27,7 +31,7 @@ const EnemyGrid: React.FC<EnemyGridProps> = ({ enemies, layouts, enemyLink, onLa
       >
         {enemies.map((enemy, index) => (
           <div key={index}>
-            <Enemy enemy={enemy} link={enemyLink} />
+            <Enemy enemy={enemy.enemy} link={enemy.enemyLink} />
           </div>
         ))}
       </GridLayout>

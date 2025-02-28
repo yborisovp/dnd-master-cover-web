@@ -1,4 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
+
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import {
   FaArrowsAlt,
   FaBolt,
@@ -12,27 +14,9 @@ import {
   FaSnowflake,
   FaTint,
 } from "react-icons/fa";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+
 import styles from "./Enemy.module.scss";
-
-export interface Ability {
-  weaponType: string;
-  attackDiceRoll: string | null;
-  hitDiceRoll: string | null;
-  damageType: string | null;
-  description: string;
-}
-
-export interface EnemyData {
-  id: number;
-  name: string;
-  dangerLevel: number;
-  hp: number;
-  maxHp?: number; // If not provided, we treat hp as max
-  class: string;
-  description: string;
-  abilities: Ability[];
-}
+import { Ability, EnemyData } from "../models/enemy";
 
 export interface EnemyProps {
   enemy: EnemyData;

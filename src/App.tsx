@@ -1,22 +1,26 @@
 import { useState } from "react";
-import EnemyGrid from "./grid/EnemyGrid";
-import { EnemyData } from "./Cards/Enemy";
+
 import { Layout } from "react-grid-layout";
-import EnemySearch from "./search/EnemySearch";
+
 import styles from "./App.module.scss";
+import EnemyGrid from "./grid/EnemyGrid";
+import { EnemyData } from "./models/enemy";
+import EnemySearch from "./search/EnemySearch";
 import InitiativeList from "./initiativeList/InitiativeList";
 
 function App() {
-  const [enemies, setEnemies] = useState<EnemyData[]>([]);
+  const [enemies, setEnemies] = useState<
+    { enemy: EnemyData; enemyLink: string }[]
+  >([]);
   const [layouts, setLayouts] = useState<Layout[]>([]);
-  const [enemyLink, setEnemyLink] = useState("");
   const [showSearchModal, setShowSearchModal] = useState(false);
 
   // Callback from EnemySearch to add a new enemy.
   const addEnemyFromSearch = (newEnemy: EnemyData, enemyLink: string) => {
     const newIndex = enemies.length;
-    setEnemyLink(enemyLink);
-    setEnemies([...enemies, newEnemy]);
+    const resEnemy = { enemy: newEnemy, enemyLink: enemyLink };
+
+    setEnemies([...enemies, resEnemy]);
     setLayouts([
       ...layouts,
       {
@@ -61,7 +65,6 @@ function App() {
       <EnemyGrid
         enemies={enemies}
         layouts={layouts}
-        enemyLink={enemyLink}
         onLayoutChange={onLayoutChange}
       />
     </div>

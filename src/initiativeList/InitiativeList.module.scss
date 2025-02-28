@@ -1,28 +1,29 @@
-$bg: #44475a;         
-$bgHover: #515361;    
+$bg: #44475a;
+$bgHover: #515361;
 $textColor: #f8f8f2;
-$primaryColor: #ff79c6; 
-$dangerLow: #50fa7b;    
-$dangerMed: #f1fa8c;    
-$dangerHigh: #ff5555;   
+$primaryColor: #ff79c6;
+$dangerLow: #50fa7b;
+$dangerMed: #f1fa8c;
+$dangerHigh: #ff5555;
 $dangerExtreme: #bd93f9;
 
 .initiativeList {
   max-width: 27rem;
   margin-right: 1rem;
-  background: $bg; // e.g., #2b2b2b
+  background: $bg; // e.g., #44475a
   border-radius: 8px;
   margin: 0.5rem 0;
-  color: $textColor; // e.g., #fff
+  color: $textColor; // e.g., #f8f8f2
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  transition: all 0.3s ease;
-  height: fit-content;
+  // Removed height: fit-content to avoid any sticky-like behavior
+    // Removed transition: all 0.3s ease to reduce “stickiness”
 
   &.collapsed {
     .listContainer {
       max-height: 0;
       opacity: 0;
       pointer-events: none; // to avoid confusion
+      // If you still want a smooth collapse, reintroduce a transition here
     }
   }
 }
@@ -40,12 +41,14 @@ $dangerExtreme: #bd93f9;
     align-items: center;
     gap: 0.5rem;
     flex-grow: 1;
+    margin-right: 2rem;
   }
 
   .dragHandleIcon {
     font-size: 1rem;
-    color: $primaryColor; 
+    color: $primaryColor;
     cursor: default; // or pointer, but not move if this is not the actual handle
+
     &:hover {
       color: lighten($primaryColor, 10%);
     }
@@ -90,11 +93,11 @@ $dangerExtreme: #bd93f9;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s ease; // Slight hover effect
   display: flex;
   align-items: center;
   font-size: 0.9rem;
-  
+
   &:hover {
     background: $primaryColor;
     color: $bg;
@@ -102,15 +105,15 @@ $dangerExtreme: #bd93f9;
 }
 
 .listContainer {
-  max-height: 1000px; // to animate collapse
-  transition: all 0.3s ease;
+  // Removed transition: all 0.3s ease and max-height 1000px 
+    // to avoid sticky or “snappy” effects
   overflow: hidden;
   padding: 0.5rem 1rem;
 }
 
 .tableHeader {
   display: grid;
-  grid-template-columns: 50px 1fr 3fr 1fr; 
+  grid-template-columns: 50px 1fr 3fr 1fr;
   gap: 0.5rem;
   padding: 0.25rem 0.5rem;
   margin-bottom: 0.5rem;
@@ -122,14 +125,14 @@ $dangerExtreme: #bd93f9;
 
 .listItem {
   display: grid;
-  grid-template-columns: 50px 1fr 3fr 1fr; 
+  grid-template-columns: 50px 1fr 3fr 1fr;
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem;
   margin-bottom: 4px;
   background: $bg;
   border-radius: 4px;
-  transition: all 0.2s ease;
+  // Removed transition to prevent sticky hover effect
   border-left: 2px solid transparent;
 
   &.player {
@@ -164,7 +167,9 @@ $dangerExtreme: #bd93f9;
   }
 }
 
-.typeSelect, .nameInput, .initiativeInput {
+.typeSelect,
+.nameInput,
+.initiativeInput {
   background: transparent;
   width: 100%;
   border: none;
@@ -173,14 +178,15 @@ $dangerExtreme: #bd93f9;
   padding: 2px;
   font-size: 0.9rem;
   outline: none;
-  
+
   &:focus {
     border-bottom-color: lighten($primaryColor, 10%);
   }
 }
 
 .typeBadge {
-padding-left: 0.6rem;
+  padding-left: 0.6rem;
+
   svg {
     font-size: 1.2rem;
   }
@@ -197,4 +203,13 @@ padding-left: 0.6rem;
   font-weight: bold;
   text-align: center;
   white-space: nowrap;
+}
+
+// Safari-specific hack if needed
+@media not all and (min-resolution: 0.001dpcm) {
+  @supports (-webkit-appearance: none) {
+    .initiativeList {
+      // Additional Safari adjustments if necessary
+    }
+  }
 }
