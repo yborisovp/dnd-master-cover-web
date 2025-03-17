@@ -1,0 +1,66 @@
+@use "../../styles/colors.scss";
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+        color: colors.$text-primary;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    input,
+    textarea {
+        padding: 0.75rem;
+        border: 2px solid colors.$primary-color-600;
+        border-radius: 6px;
+        background: colors.$bg-color-1000;
+        color: colors.$text-primary;
+        transition: border-color 0.2s ease;
+
+        &:focus {
+            outline: none;
+            border-color: colors.$primary-color-500;
+            box-shadow: 0 0 0 2px rgba(colors.$bg-color-600, 0.1);
+        }
+    }
+}
+
+.contactGroup {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    @media (max-width: 600px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.select {
+    appearance: none;
+    background: colors.$bg-color-1000;
+    border: 2px solid colors.$primary-color-600;
+    border-radius: 6px;
+    padding: 0.89rem;
+    color: colors.$text-primary;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1em;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+
+    &:focus {
+        outline: none;
+        border-color: colors.$primary-color-500;
+    }
+}

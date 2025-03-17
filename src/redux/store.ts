@@ -1,8 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import initiativeReducer from "./initiativeSlice";
-import enemyReducer from "./enemiesSlice";
+import initiativeReducer from "./slice/initiative.slice";
+import enemyReducer from "./slice/enemies.slice";
+import settingsReducer from "./slice/settings.slice";
+import feedbackReducer from "./slice/feedback.slice";
+
 import storage from "redux-persist/lib/storage";
+
 import { persistReducer, persistStore } from "redux-persist";
+import { submitFeedback } from "./thunx";
 
 const persistConfig = {
   key: "root",
@@ -12,6 +17,8 @@ const persistConfig = {
 var rootReducer = combineReducers({
   initiative: initiativeReducer,
   enemy: enemyReducer,
+  settings: settingsReducer,
+  feedback: feedbackReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -22,7 +29,11 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ["persist/PERSIST", "persist/REHYDRATE"],
+        ignoredActions: [
+          "persist/PERSIST",
+          "persist/REHYDRATE",
+          submitFeedback.typePrefix,
+        ],
       },
     }),
 });

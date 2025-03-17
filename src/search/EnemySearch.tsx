@@ -10,7 +10,7 @@ import {
   getEnemyListAsync,
 } from "../redux/thunx";
 import { ApiEnemy, EnemyData } from "../models/enemy";
-import { selectApiEnemies } from "../redux/enemiesSlice";
+import { selectApiEnemies } from "../redux/slice/enemies.slice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 
 interface EnemySearchProps {

@@ -1,0 +1,113 @@
+@use 'scss-reset';
+
+:root {
+    --bg-color-1000: #141C25;
+    --bg-color-900: #141C25;
+    --bg-color-800: #202B37;
+    --bg-color-700: #344051;
+    --bg-color-600: #414E62;
+    --bg-color-500: #637083;
+    --bg-color-400: #97A1AF;
+    --bg-color-300: #CED2DA;
+    --bg-color-200: #E4E7EC;
+    --bg-color-100: #F2F4F7;
+    --bg-color-0: #FFF;
+
+    --primary-color-900: #831843;
+    --primary-color-800: #9D174D;
+    --primary-color-700: #BE185D;
+    --primary-color-600: #DB2777;
+    --primary-color-500: #EC4899;
+    --primary-color-400: #F472B6;
+    --primary-color-300: #F9A8D4;
+    --primary-color-200: #FBCFE8;
+    --primary-color-100: #FCE7F3;
+
+    --error-color-900: #790C0C;
+    --error-color-800: #B01111;
+    --error-color-700: #DE1212;
+    --error-color-600: #F62C2C;
+    --error-color-500: #FF4D4D;
+    --error-color-400: #FF6666;
+    --error-color-300: #FF8585;
+    --error-color-200: #FFA3A3;
+    --error-color-100: #FFC2C2;
+    --error-color-050: #FFE5E5;
+
+    --text-primary: #FFF;
+    --text-secondary: #CED2DA;
+    --text-tertiary: #637083;
+    --text-disabled: #344051;
+    --text-quaternary: #141C25;
+}
+
+.light-mode {
+    --bg-color-1000: #FFF;
+    --bg-color-900: #F2F4F7;
+    --bg-color-800: #E4E7EC;
+    --bg-color-700: #CED2DA;
+    --bg-color-600: #97A1AF;
+    --bg-color-500: #637083;
+    --bg-color-400: #414E62;
+    --bg-color-300: #344051;
+    --bg-color-200: #202B37;
+    --bg-color-100: #141C25;
+    --bg-color-0: #141C25;
+
+    --primary-color-900: #FCE7F3;
+    --primary-color-800: #FBCFE8;
+    --primary-color-700: #F9A8D4;
+    --primary-color-600: #F472B6;
+    --primary-color-500: #EC4899;
+    --primary-color-400: #DB2777;
+    --primary-color-300: #BE185D;
+    --primary-color-200: #9D174D;
+    --primary-color-100: #831843;
+
+    --error-color-900: #FFC2C2;
+    --error-color-800: #FFA3A3;
+    --error-color-700: #FF8585;
+    --error-color-600: #FF6666;
+    --error-color-500: #FF4D4D;
+    --error-color-400: #F62C2C;
+    --error-color-300: #DE1212;
+    --error-color-200: #B01111;
+    --error-color-100: #790C0C;
+    --error-color-050: #610808;
+
+    --text-primary: #141C25;
+    --text-secondary: #344051;
+    --text-tertiary: #637083;
+    --text-disabled: #CED2DA;
+    --text-quaternary: #FFF;
+
+}
+
+@import "./colors.scss";
+
+body {
+    min-height: 100vh;
+    color: $text-primary;
+    background-color: $bg-color-1000 !important;
+}
+
+footer {
+    cursor: default;
+    margin-left: 1.4rem;
+    color: $text-tertiary;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    position: fixed;
+    bottom: 0px;
+
+    a {
+        text-decoration: none;
+        color: $text-tertiary;
+        cursor: pointer;
+
+        &:hover {
+            color: $text-secondary;
+        }
+    }
+}

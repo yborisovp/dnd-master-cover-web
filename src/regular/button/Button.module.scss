@@ -1,0 +1,72 @@
+@use "../../styles/colors.scss";
+
+.button {
+    place-self: center;
+    min-width: 5rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    vertical-align: baseline;
+    box-sizing: border-box;
+    cursor: pointer;
+
+    background-color: colors.$bg-color-1000;
+    color: colors.$text-primary;
+
+    border: 1px solid colors.$bg-color-800;
+    border-radius: 6px;
+    box-shadow: 0px 1px 2px 0px colors.$bg-color-800;
+
+    padding: 16px;
+    margin-bottom: 0.5rem;
+
+    transition: all 0.3s ease;
+
+    &.active {
+        background-color: colors.$primary-color-600;
+
+        &:hover {
+            background-color: colors.$primary-color-500;
+        }
+    }
+
+    // Hover state
+    &:hover {
+        background-color: colors.$bg-color-800;
+    }
+
+    // Focus state
+    &:focus-visible {
+        border-color: colors.$bg-color-100;
+        outline: colors.$bg-color-700 solid 2px !important;
+    }
+
+    // Active state (mouse click or keypress)
+    &:active {
+        background-color: colors.$bg-color-700;
+    }
+
+    // Disabled state
+    &:disabled {
+        background-color: colors.$bg-color-800;
+        color: colors.$text-tertiary;
+    }
+
+    &.suggest {
+        border: colors.$primary-color-600 solid 2px !important;
+
+        &:hover {
+            background-color: colors.$primary-color-600;
+        }
+    }
+
+    &.dangerous {
+        outline: colors.$error-color-800 solid 1px !important;
+
+        &:hover {
+            background-color: colors.$error-color-500;
+        }
+    }
+}

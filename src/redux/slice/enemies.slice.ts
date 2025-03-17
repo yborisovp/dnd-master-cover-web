@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { RootState } from "./store";
-import { ApiEnemy, EnemyData } from "../models/enemy";
-import { getEnemyAsync, getEnemyListAsync } from "./thunx";
+import { RootState } from "../store";
+import { ApiEnemy, EnemyData } from "../../models/enemy";
+import { getEnemyAsync, getEnemyListAsync } from "../thunx";
 
 interface EnemyState {
   apiEnemies: ApiEnemy[];

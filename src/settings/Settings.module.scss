@@ -1,0 +1,65 @@
+@use "../styles/colors.scss";
+
+.modal {
+    display: flex;
+    border-radius: 12px;
+    width: 50rem;
+    min-height: 30rem;
+    animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav {
+    display: flex;
+    flex-direction: column;
+    width: 13rem;
+    padding: 1.5rem;
+    border-right: 1px solid colors.$bg-color-600;
+}
+
+.navItem {
+    width: 10rem;
+    padding: 0.75rem 1rem;
+    margin: 4px 0;
+    border-radius: 6px;
+    text-align: left;
+    transition: all 0.2s ease;
+}
+
+.content {
+    flex: 1;
+    padding: 2rem;
+}
+
+.title {
+    margin: 0 0 2rem;
+    color: colors.$text-primary;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.section {
+    padding: 1rem 0;
+
+    h3 {
+        margin: 0 0 1rem;
+        color: colors.$text-primary;
+        font-size: 1.1rem;
+    }
+
+    p {
+        color: colors.$text-secondary;
+        line-height: 1.6;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}

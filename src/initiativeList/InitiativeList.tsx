@@ -20,9 +20,10 @@ import {
   rotateInitiative,
   selectCharacter,
   updateCharacter,
-} from "../redux/initiativeSlice";
+} from "../redux/slice/initiative.slice";
 
 import styles from "./InitiativeList.module.scss";
+import { MButton } from "../regular/button/Button";
 
 const InitiativeList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -113,12 +114,12 @@ const InitiativeList: React.FC = () => {
     >
       {/* HEADER */}
       <div className={styles.header}>
+        <h3>Initiative Order</h3>
         <div
           className={styles.headerContent}
           onClick={() => setIsCollapsed(!isCollapsed)}
           style={{ cursor: "pointer" }}
         >
-          <h3>Initiative Order</h3>
           {isCollapsed && activePerson && (
             <div className={styles.activePerson}>
               {activePerson.type === "player" ? <FaUser /> : <FaDragon />}
@@ -129,109 +130,131 @@ const InitiativeList: React.FC = () => {
             </div>
           )}
         </div>
+        {/* LIST */}
+        {!isCollapsed && (
+          <div className={styles.listContainer}>
+            <div className={styles.tableHeader}>
+              <span>Type</span>
+              <span>Name</span>
+              <span>Initiative</span>
+              {isEditMode && <span>Actions</span>}
+            </div>
 
+            {(isEditMode ? editedItems : reduxItems).map((item) => (
+              <div
+                key={item.id}
+                className={`${styles.listItem} ${styles[item.type]}`}
+              >
+                {isEditMode ? (
+                  <>
+                    <select
+                      value={item.type}
+                      onChange={(e) =>
+                        handleEdit(item.id, "type", e.target.value)
+                      }
+                      className={styles.typeSelect}
+                    >
+                      <option value="player">Player</option>
+                      <option value="enemy">Enemy</option>
+                    </select>
+                    <input
+                      type="text"
+                      value={item.name}
+                      onChange={(e) =>
+                        handleEdit(item.id, "name", e.target.value)
+                      }
+                      className={styles.nameInput}
+                      placeholder="Enter name"
+                    />
+                    <input
+                      type="number"
+                      value={item.initiative}
+                      onChange={(e) =>
+                        handleEdit(
+                          item.id,
+                          "initiative",
+                          e.target.valueAsNumber || ""
+                        )
+                      }
+                      className={styles.initiativeInput}
+                      placeholder="0"
+                    />
+                    <MButton
+                      className={styles.iconButton}
+                      isSuggest={true}
+                      onClick={() => handleRemove(item.id)}
+                    >
+                      <FaTrash />
+                    </MButton>
+                  </>
+                ) : (
+                  <>
+                    <span className={styles.typeBadge}>
+                      {item.type === "player" ? <FaUser /> : <FaDragon />}
+                    </span>
+                    <span className={styles.name}>
+                      {item.name || "Unnamed"}
+                    </span>
+                    <span className={styles.initiative}>{item.initiative}</span>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
         <div className={styles.controls}>
           {isEditMode ? (
             <>
-              <button className={styles.iconButton} onClick={addNewEntry}>
+              <MButton
+                className={styles.iconButton}
+                isSuggest={true}
+                onClick={addNewEntry}
+              >
                 <FaPlus />
-              </button>
-              <button className={styles.iconButton} onClick={saveChanges}>
+              </MButton>
+              <MButton
+                className={styles.iconButton}
+                isSuggest={true}
+                onClick={saveChanges}
+              >
                 <FaSave />
-              </button>
-              <button className={styles.iconButton} onClick={cancelEdit}>
+              </MButton>
+              <MButton
+                className={styles.iconButton}
+                isSuggest={true}
+                onClick={cancelEdit}
+              >
                 <FaTimes />
-              </button>
+              </MButton>
             </>
           ) : (
             <>
-              <button className={styles.iconButton} onClick={startEditing}>
+              <MButton
+                className={styles.iconButton}
+                isSuggest={true}
+                onClick={startEditing}
+              >
                 <FaEdit />
-              </button>
-              {/* New End Turn button */}
-              <button className={styles.iconButton} onClick={handleEndTurn}>
+              </MButton>
+              {/* New End Turn MButton */}
+              <MButton
+                className={styles.iconButton}
+                isSuggest={true}
+                onClick={handleEndTurn}
+              >
                 End Turn
-              </button>
+              </MButton>
             </>
           )}
-          <button
+          <MButton
             className={styles.iconButton}
+            isSuggest={true}
             onClick={() => setIsCollapsed(!isCollapsed)}
           >
             {isCollapsed ? <FaCaretDown /> : <FaCaretUp />}
-          </button>
+          </MButton>
         </div>
       </div>
-
-      {/* LIST */}
-      {!isCollapsed && (
-        <div className={styles.listContainer}>
-          <div className={styles.tableHeader}>
-            <span>Type</span>
-            <span>Name</span>
-            <span>Initiative</span>
-            {isEditMode && <span>Actions</span>}
-          </div>
-
-          {(isEditMode ? editedItems : reduxItems).map((item) => (
-            <div
-              key={item.id}
-              className={`${styles.listItem} ${styles[item.type]}`}
-            >
-              {isEditMode ? (
-                <>
-                  <select
-                    value={item.type}
-                    onChange={(e) =>
-                      handleEdit(item.id, "type", e.target.value)
-                    }
-                    className={styles.typeSelect}
-                  >
-                    <option value="player">Player</option>
-                    <option value="enemy">Enemy</option>
-                  </select>
-                  <input
-                    type="text"
-                    value={item.name}
-                    onChange={(e) =>
-                      handleEdit(item.id, "name", e.target.value)
-                    }
-                    className={styles.nameInput}
-                    placeholder="Enter name"
-                  />
-                  <input
-                    type="number"
-                    value={item.initiative}
-                    onChange={(e) =>
-                      handleEdit(
-                        item.id,
-                        "initiative",
-                        e.target.valueAsNumber || ""
-                      )
-                    }
-                    className={styles.initiativeInput}
-                    placeholder="0"
-                  />
-                  <button
-                    className={styles.removeButton}
-                    onClick={() => handleRemove(item.id)}
-                  >
-                    <FaTrash />
-                  </button>
-                </>
-              ) : (
-                <>
-                  <span className={styles.typeBadge}>
-                    {item.type === "player" ? <FaUser /> : <FaDragon />}
-                  </span>
-                  <span className={styles.name}>{item.name || "Unnamed"}</span>
-                  <span className={styles.initiative}>{item.initiative}</span>
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-      )}
     </div>
   );
 };

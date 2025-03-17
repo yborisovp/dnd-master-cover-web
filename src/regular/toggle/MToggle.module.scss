@@ -1,0 +1,110 @@
+@import "../../styles/colors.scss";
+
+.toggle {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    /* space between text and switch */
+
+    &__text {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+    }
+
+    &__label {
+        font-size: 0.875rem; // 14px
+        font-weight: 500;
+        color: $text-primary;
+    }
+
+    &__helper {
+        font-size: 0.75rem; // 12px
+        color: $text-secondary;
+
+        &--disabled {
+            color: $text-disabled;
+        }
+    }
+
+    &__switch {
+        position: relative;
+        width: 36px;
+        height: 18px;
+    }
+
+    &__checkbox {
+        /* Hide the native checkbox but keep it accessible for screen readers */
+        opacity: 0;
+        width: 0;
+        height: 0;
+        margin: 0;
+        position: absolute;
+        cursor: pointer;
+
+        &:disabled {
+            cursor: not-allowed;
+        }
+
+        /* Focus (keyboard navigation) */
+        &:focus-visible+.toggle__slider {
+            outline: 2px solid $primary-color-300;
+            outline-offset: 2px;
+        }
+    }
+
+    &__slider {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: $bg-color-800;
+        /* Off-state track color */
+        border-radius: 18px;
+        transition: background-color 0.4s, transform 0.4s;
+
+        &:before {
+            content: "";
+            position: absolute;
+            height: 14px;
+            width: 14px;
+            left: 2px;
+            bottom: 2px;
+            background-color: $bg-color-100;
+            /* Off-state thumb color */
+            border-radius: 50%;
+            transition: transform 0.4s;
+        }
+    }
+
+    /* On hover, slightly darken the track (if not disabled) */
+    &:hover {
+        &__slider {
+            background-color: $bg-color-400;
+        }
+    }
+
+    /* Checked State */
+    &__checkbox:checked+.toggle__slider {
+        background-color: $primary-color-500;
+        /* On-state track color */
+
+        &:before {
+            transform: translateX(18px);
+        }
+    }
+
+    /* Disabled State */
+    &__checkbox:disabled+.toggle__slider {
+        background-color: $bg-color-100;
+        /* Light grey track */
+        cursor: not-allowed;
+
+        &:before {
+            background-color: $bg-color-200;
+            /* Light grey thumb */
+        }
+    }
+}

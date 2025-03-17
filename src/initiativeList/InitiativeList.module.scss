@@ -1,7 +1,9 @@
-$bg: #44475a;
-$bgHover: #515361;
-$textColor: #f8f8f2;
-$primaryColor: #ff79c6;
+@use "../styles/colors.scss";
+
+$bg: colors.$bg-color-1000;
+$bgHover: colors.$bg-color-800;
+$textColor: colors.$text-primary;
+$primaryColor: colors.$primary-color-600;
 $dangerLow: #50fa7b;
 $dangerMed: #f1fa8c;
 $dangerHigh: #ff5555;
@@ -30,34 +32,36 @@ $dangerExtreme: #bd93f9;
 
 .header {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   align-items: center;
   padding: 0.75rem 1rem;
-  background: darken($bg, 3%);
+  background: $bg;
   border-radius: 8px 8px 0 0;
 
   .headerContent {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    
     flex-grow: 1;
-    margin-right: 2rem;
+    margin-bottom: 1rem;
+      justify-content: space-around;
   }
 
   .dragHandleIcon {
     font-size: 1rem;
-    color: $primaryColor;
+    color: $textColor;
     cursor: default; // or pointer, but not move if this is not the actual handle
 
     &:hover {
-      color: lighten($primaryColor, 10%);
+      color: $textColor
     }
   }
 
   h3 {
     margin: 0;
     font-size: 1rem;
-    color: $primaryColor;
+    color: $textColor;
   }
 }
 
@@ -66,11 +70,10 @@ $dangerExtreme: #bd93f9;
   align-items: center;
   gap: 0.5rem;
   padding: 0.25rem 0.5rem;
-  background: $bgHover;
   border-radius: 4px;
 
   svg {
-    color: $primaryColor;
+    color: $textColor;
   }
 
   .initiativeBadge {
@@ -83,41 +86,28 @@ $dangerExtreme: #bd93f9;
 
 .controls {
   display: flex;
+  justify-content: space-between;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .iconButton {
-  background: transparent;
-  border: 2px solid $primaryColor;
-  color: $primaryColor;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease; // Slight hover effect
-  display: flex;
-  align-items: center;
-  font-size: 0.9rem;
-
-  &:hover {
-    background: $primaryColor;
-    color: $bg;
-  }
+  padding: 0.8rem !important;
 }
 
 .listContainer {
   // Removed transition: all 0.3s ease and max-height 1000px 
     // to avoid sticky or “snappy” effects
   overflow: hidden;
-  padding: 0.5rem 1rem;
 }
 
 .tableHeader {
   display: grid;
-  grid-template-columns: 50px 1fr 3fr 1fr;
+  grid-template-columns: 1.5fr 3fr 1fr 1fr;
   gap: 0.5rem;
   padding: 0.25rem 0.5rem;
   margin-bottom: 0.5rem;
-  background: darken($bg, 5%);
+  background: $bg;
   border-radius: 4px;
   font-weight: bold;
   color: $primaryColor;
@@ -125,10 +115,12 @@ $dangerExtreme: #bd93f9;
 
 .listItem {
   display: grid;
-  grid-template-columns: 50px 1fr 3fr 1fr;
+  grid-template-columns: 1.5fr 3fr 1fr 1fr;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem;
+  padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
   margin-bottom: 4px;
   background: $bg;
   border-radius: 4px;
@@ -163,7 +155,7 @@ $dangerExtreme: #bd93f9;
   justify-content: center;
 
   &:hover {
-    color: lighten($primaryColor, 10%);
+    color: $primaryColor;
   }
 }
 
@@ -180,7 +172,7 @@ $dangerExtreme: #bd93f9;
   outline: none;
 
   &:focus {
-    border-bottom-color: lighten($primaryColor, 10%);
+    border-bottom-color: $primaryColor;
   }
 }
 
@@ -204,12 +196,8 @@ $dangerExtreme: #bd93f9;
   text-align: center;
   white-space: nowrap;
 }
-
 // Safari-specific hack if needed
 @media not all and (min-resolution: 0.001dpcm) {
   @supports (-webkit-appearance: none) {
-    .initiativeList {
-      // Additional Safari adjustments if necessary
-    }
   }
 }

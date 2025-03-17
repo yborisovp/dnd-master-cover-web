@@ -1,9 +1,11 @@
 /* Enemy.module.scss */
 /* Dracula-ish colors */
-$bg: #44475a;         
-$bgHover: #515361;    
-$textColor: #f8f8f2;
-$primaryColor: #ff79c6; 
+@use "../styles/colors.scss";
+
+$bg: colors.$bg-color-1000;
+$bgHover: colors.$bg-color-800;
+$textColor: colors.$text-primary;
+$primaryColor: colors.$primary-color-800;
 $dangerLow: #50fa7b;    
 $dangerMed: #f1fa8c;    
 $dangerHigh: #ff5555;   
@@ -43,7 +45,7 @@ a {
         /* The handle recognized by react-grid-layout */
         cursor: move;
         font-size: 1.2rem;
-        color: lighten($textColor, 20%);
+        color: $textColor
       }
 
       .name {
@@ -183,7 +185,7 @@ a {
       outline: none;
 
       &::placeholder {
-        color: lighten($textColor, 20%);
+        color: $textColor
       }
     }
 
@@ -247,7 +249,7 @@ a {
       margin: 0;
       font-size: 0.95rem;
       font-style: italic;
-      color: lighten($textColor, 15%);
+      color: $textColor;
     }
   }
 
@@ -269,7 +271,7 @@ a {
       transition: background 0.2s ease;
 
       &:hover {
-        background: lighten($bgHover, 5%);
+        background: $bgHover;
       }
 
       .abilityHeader {
@@ -318,7 +320,7 @@ a {
       .abilityDescription {
         margin: 0;
         font-size: 0.9rem;
-        color: lighten($textColor, 15%);
+        color: $textColor;
       }
 
       .abilityDescriptionInput {

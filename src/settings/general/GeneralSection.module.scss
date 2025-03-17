@@ -1,0 +1,11 @@
+@use "../../styles/colors.scss";
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+p {
+    color: colors.$text-secondary; 
+}
