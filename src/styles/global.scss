@@ -1,8 +1,9 @@
 @use 'scss-reset';
 
 :root {
-    --bg-color-1000: #141C25;
+    --bg-color-1000: #000000;
     --bg-color-900: #141C25;
+    --bg-color-850: #131b23;
     --bg-color-800: #202B37;
     --bg-color-700: #344051;
     --bg-color-600: #414E62;
@@ -39,6 +40,40 @@
     --text-tertiary: #637083;
     --text-disabled: #344051;
     --text-quaternary: #141C25;
+
+    --green-color-900: #14532D;
+    --green-color-800: #166534;
+    --green-color-700: #15803D;
+    --green-color-600: #16A34A;
+    --green-color-500: #22C55E;
+    --green-color-400: #4ADE80;
+    --green-color-300: #86EFAC;
+    --green-color-200: #BBF7D0;
+    --green-color-100: #DCFCE7;
+    --green-color-050: #F0FDF4;
+
+    --yellow-color-900: #78350F;
+    --yellow-color-800: #92400E;
+    --yellow-color-700: #B45309;
+    --yellow-color-600: #D97706;
+    --yellow-color-500: #F59E0B;
+    --yellow-color-400: #FBBF24;
+    --yellow-color-300: #FCD34D;
+    --yellow-color-200: #FDE68A;
+    --yellow-color-100: #FEF3C7;
+    --yellow-color-050: #FFFBEB;
+
+    
+    --violet-color-900: #4C1D95;
+    --violet-color-800: #5B21B6;
+    --violet-color-700: #6D28D9;
+    --violet-color-600: #7C3AED;
+    --violet-color-500: #8B5CF6;
+    --violet-color-400: #A78BFA;
+    --violet-color-300: #C4B5FD;
+    --violet-color-200: #DDD6FE;
+    --violet-color-100: #EDE9FE;
+    --violet-color-050: #F5F3FF;
 }
 
 .light-mode {
@@ -74,6 +109,40 @@
     --error-color-200: #B01111;
     --error-color-100: #790C0C;
     --error-color-050: #610808;
+
+    --green-color-900: #F0FDF4;
+    --green-color-800: #DCFCE7;
+    --green-color-700: #BBF7D0;
+    --green-color-600: #86EFAC;
+    --green-color-500: #4ADE80;
+    --green-color-400: #22C55E;
+    --green-color-300: #16A34A;
+    --green-color-200: #15803D;
+    --green-color-100: #166534;
+    --green-color-050: #14532D;
+
+    --yellow-color-900: #FFFBEB;
+    --yellow-color-800: #FEF3C7;
+    --yellow-color-700: #FDE68A;
+    --yellow-color-600: #FCD34D;
+    --yellow-color-500: #FBBF24;
+    --yellow-color-400: #F59E0B;
+    --yellow-color-300: #D97706;
+    --yellow-color-200: #B45309;
+    --yellow-color-100: #92400E;
+    --yellow-color-050: #78350F;
+    
+    --violet-color-900: #F5F3FF;
+    --violet-color-800: #EDE9FE;
+    --violet-color-700: #DDD6FE;
+    --violet-color-600: #C4B5FD;
+    --violet-color-500: #A78BFA;
+    --violet-color-400: #8B5CF6;
+    --violet-color-300: #7C3AED;
+    --violet-color-200: #6D28D9;
+    --violet-color-100: #5B21B6;
+    --violet-color-050: #4C1D95;
+
 
     --text-primary: #141C25;
     --text-secondary: #344051;

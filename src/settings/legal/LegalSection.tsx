@@ -1,8 +1,11 @@
+import { useTranslation } from "react-i18next";
+
 const LegalSection = () => {
+  const { t } = useTranslation("common");
   return (
     <>
-      <h3>Legal Information</h3>
-      <p>Terms of service and privacy policy will appear here</p>
+      <h3>{t("app.settings.legal.header")}</h3>
+      <p>{t("app.settings.legal.terms")}</p>
     </>
   );
 };

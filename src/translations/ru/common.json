@@ -1,0 +1,62 @@
+{
+  "app": {
+    "side-bar": {
+      "settings": "Настройки",
+      "add-enemy": "Добавить врага",
+      "light-theme": "Светлая тема"
+    },
+    "settings": {
+      "general-button": "Основные",
+      "general": {
+        "language-text": "Язык",
+        "language": {
+          "english": "Английский",
+          "russian": "Русский"
+        },
+        "lgiht-mode-title": "Светлая тема",
+        "lgiht-mode-description": "Включить светлую тему",
+        "panel-description": "Передвинуть панель на право",
+        "panel-title": "Панель с права"
+      },
+      "feedback-button": "Отзыв",
+      "legal-button": "Информация",
+      "feedback": {
+        "completed": "Спасибо! Ваш отзыв отправлен.",
+        "email": "Email",
+        "contact-type": "Способ связи",
+        "message": "Сообщение",
+        "other": "Другой",
+        "social-media-text": "Ваш профиль для связи",
+        "telegram": "Телеграм",
+        "telegram-description": "Ссылка на профиль {{username}}",
+        "email-description": "Почта",
+        "other-description": "Ссылка на профиль",
+        "send-feedback": "Отправить отзыв"
+      },
+      "legal": {
+        "header": "Основные правила",
+        "terms": "Правила использования и прочая информация будет опубликована здесь позже."
+      }
+    },
+    "initiative-list": {
+      "actions": "Действия",
+      "enemy": "Враг",
+      "enter-name": "Введите имя",
+      "initiative": "Инициатива",
+      "name": "Имя",
+      "player": "Игрок",
+      "type": "Тип",
+      "unnamed": "Без имени",
+      "end-turn": "Дальше",
+      "initiative-order": "Инициатива"
+    },
+    "enemy-search": {
+      "add-enemy": "Добавить врага",
+      "all-danger-levels": "Все уровни опасности",
+      "danger-asc": "Опасность восх.",
+      "danger-desc": "Опасность нисх.",
+      "danger-greater-than-20": "Больше 20",
+      "search-enemy-placeholder": "Поиск врагов..."
+    }
+  }
+}

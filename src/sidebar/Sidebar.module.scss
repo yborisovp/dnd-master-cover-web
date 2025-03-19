@@ -1,0 +1,199 @@
+@use "../styles/colors.scss";
+
+.container {
+    position: relative;
+
+    height: 100vh;
+    width: 26rem;
+    flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: stretch;
+    align-content: stretch;
+    transition: all 0.3s ease;
+
+    padding: 20px;
+    background-color: colors.$bg-color-900;
+
+    .sidebarHandle {
+        position: absolute;
+        right: 1rem;
+        cursor: pointer;
+        color: colors.$text-secondary;
+    }
+
+    .playersGroup {
+        display: flex;
+        justify-content: center;
+
+        margin-bottom: 1rem;
+        .title {
+            font-weight: 600;
+        }
+    }
+    .secondPartContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        color: colors.$text-secondary;
+
+        .addButton {
+            margin-bottom: 2rem;
+            justify-self: center;
+        }
+        .actionsContainer {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: start;
+            margin-bottom: 1rem;
+            div {
+                margin-bottom: 1rem;
+            }
+
+            .settings {
+                color: colors.$text-primary;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-content: center;
+
+                span {
+                    padding-left: 0.5rem;
+                }
+            }
+
+            .darkMode {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                flex-wrap: nowrap;
+                justify-content: space-between;
+                align-items: center;
+                align-content: stretch;
+
+                color: colors.$text-primary;
+
+                .textContainer {
+                    display: flex;
+                    justify-content: center;
+                    align-content: center;
+                    span {
+                        padding-left: 0.5rem;
+                    }
+                }
+            }
+        }
+    }
+
+    &.closed {
+        width: 5rem;
+        .sidebarHandle {
+            position: absolute;
+            right: 35%;
+            cursor: pointer;
+        }
+
+        .initiativeList {
+            width: 100%;
+            margin-top: 2rem;
+
+        }
+        .secondPartContainer {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+
+            .addButton {
+                scale: 0.8;
+            }
+
+            .divider {
+                position: absolute;
+                top: 4rem;
+                width: 100%;
+                outline: 1px solid colors.$bg-color-700;
+            }
+            .actionsContainer {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                margin-bottom: 1rem;
+                div {
+                    margin-bottom: 1rem;
+                }
+
+                .settings {
+                    color: colors.$text-primary;
+                    cursor: pointer;
+                    display: flex;
+                    justify-content: center;
+                    align-content: center;
+
+                    span {
+                        padding-left: 0.5rem;
+                    }
+                }
+
+                .darkMode {
+                    cursor: pointer;
+                    width: 100%;
+                    display: block;
+                    .textContainer {
+                        display: flex;
+                        justify-content: center;
+                        align-content: center;
+                        span {
+                            padding-left: 0.5rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.modalBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal {
+    background: colors.$bg-color-900;
+    padding: 20px;
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.closeButton {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: colors.$text-primary !important;
+    border: none;
+    font-size: 1.5rem;
+    color: #f8f8f2;
+    cursor: pointer;
+}
+
+@keyframes rot {
+    from {
+        transform: rotate(-100deg);
+    }
+    to {
+        transform: rotate(180deg);
+    }
+}

@@ -9,15 +9,16 @@ import {
   getEnemyAsync,
   getEnemyListAsync,
 } from "../redux/thunx";
-import { ApiEnemy, EnemyData } from "../models/enemy";
+import { ApiEnemy } from "../models/enemy";
 import { selectApiEnemies } from "../redux/slice/enemies.slice";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { useTranslation } from "react-i18next";
 
-interface EnemySearchProps {
-  onAddEnemy: (newEnemy: EnemyData, enemyLink: string) => void;
-}
-
-const EnemySearch: React.FC<EnemySearchProps> = ({ onAddEnemy }) => {
+type EnemySearchProps = {
+  onEnemySelected: () => void;
+};
+const EnemySearch = ({ onEnemySelected }: EnemySearchProps) => {
+  const { t } = useTranslation("common");
   // Use the custom typed dispatch to accept thunk actions.
   const dispatch = useAppDispatch();
   // Selector to retrieve the filtered enemy list from the store.
@@ -58,11 +59,8 @@ const EnemySearch: React.FC<EnemySearchProps> = ({ onAddEnemy }) => {
   };
 
   const handleSelectEnemy = async (selected: ApiEnemy) => {
-    dispatch(getEnemyAsync(selected.link))
-      .unwrap()
-      .then((e) => {
-        onAddEnemy(e, `https://dnd.su/bestiary/${selected.link}`);
-      });
+    dispatch(getEnemyAsync(selected.link));
+    onEnemySelected();
   };
 
   // Determine the sort icon based on the current dangerSort value.
@@ -70,11 +68,11 @@ const EnemySearch: React.FC<EnemySearchProps> = ({ onAddEnemy }) => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Add Enemy</h2>
+      <h2 className={styles.title}>{t("app.enemy-search.add-enemy")}</h2>
       <div className={styles.controls}>
         <input
           type="text"
-          placeholder="Search for an enemy..."
+          placeholder={t("app.enemy-search.search-enemy-placeholder")}
           value={searchTerm}
           onChange={handleSearchChange}
           className={styles.searchInput}
@@ -84,22 +82,28 @@ const EnemySearch: React.FC<EnemySearchProps> = ({ onAddEnemy }) => {
           onChange={handleDangerFilterChange}
           className={styles.selectInput}
         >
-          <option value="">All Danger Levels</option>
+          <option value="">{t("app.enemy-search.all-danger-levels")}</option>
           <option value="0">0</option>
           <option value="0-1">&lt; 1</option>
           <option value="1-5">1-5</option>
           <option value="6-10">6-10</option>
           <option value="11-15">11-15</option>
           <option value="16-20">16-20</option>
-          <option value="greater20">Greater than 20</option>
+          <option value="greater20">
+            {t("app.enemy-search.danger-greater-than-20")}
+          </option>
         </select>
         <select
           value={dangerSort}
           onChange={handleDangerSortChange}
           className={styles.selectInput}
         >
-          <option value="asc">Danger Ascending {sortIcon}</option>
-          <option value="desc">Danger Descending {sortIcon}</option>
+          <option value="asc">
+            {t("app.enemy-search.danger-asc")} {sortIcon}
+          </option>
+          <option value="desc">
+            {t("app.enemy-search.danger-desc")} {sortIcon}
+          </option>
         </select>
       </div>
       <ul className={styles.resultsList}>

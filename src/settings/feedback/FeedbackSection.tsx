@@ -4,6 +4,7 @@ import { MButton } from "../../regular/button/Button";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { resetFeedback } from "../../redux/slice/feedback.slice";
 import { submitFeedback } from "../../redux/thunx";
+import { useTranslation } from "react-i18next";
 type ContactType = "email" | "telegram" | "other";
 interface FeedbackState {
   contactType: ContactType;
@@ -12,6 +13,7 @@ interface FeedbackState {
 }
 
 const FeedbackSection = () => {
+  const { t } = useTranslation("common");
   const dispatch = useAppDispatch();
   const { status, error } = useAppSelector((state) => state.feedback);
   const [feedback, setFeedback] = useState<FeedbackState>({
@@ -57,7 +59,9 @@ const FeedbackSection = () => {
     <form className={styles.form} onSubmit={handleSubmitFeedback}>
       <div className={styles.contactGroup}>
         <div className={styles.formGroup}>
-          <label htmlFor="contactType">Contact Method</label>
+          <label htmlFor="contactType">
+            {t("app.settings.feedback.contact-type")}
+          </label>
           <select
             id="contactType"
             value={feedback.contactType}
@@ -70,18 +74,24 @@ const FeedbackSection = () => {
             }
             className={styles.select}
           >
-            <option value="email">Email</option>
-            <option value="telegram">Telegram</option>
-            <option value="other">Other Platform</option>
+            <option value="email">{t("app.settings.feedback.email")}</option>
+            <option value="telegram">
+              {t("app.settings.feedback.telegram")}
+            </option>
+            <option value="other">{t("app.settings.feedback.other")}</option>
           </select>
         </div>
 
         <div className={styles.formGroup}>
           <label htmlFor="contactValue">
-            {feedback.contactType === "email" && "Email Address"}
+            {feedback.contactType === "email" &&
+              t("app.settings.feedback.email-description")}
             {feedback.contactType === "telegram" &&
-              "Telegram Username (t.me/yborisovp)"}
-            {feedback.contactType === "other" && "Social Media Handle"}
+              t("app.settings.feedback.telegram-description", {
+                username: "t.me/yborisovp",
+              })}
+            {feedback.contactType === "other" &&
+              t("app.settings.feedback.other-description")}
           </label>
           <input
             id="contactValue"
@@ -98,7 +108,7 @@ const FeedbackSection = () => {
               feedback.contactType === "telegram"
                 ? "t.me/yborisovp"
                 : feedback.contactType === "other"
-                ? "Your social media link"
+                ? t("app.settings.feedback.social-media-text")
                 : "example@email.com"
             }
             required
@@ -107,7 +117,7 @@ const FeedbackSection = () => {
       </div>
 
       <div className={styles.formGroup}>
-        <label htmlFor="message">Message</label>
+        <label htmlFor="message">{t("app.settings.feedback.message")}</label>
         <textarea
           id="message"
           value={feedback.message}
@@ -125,7 +135,7 @@ const FeedbackSection = () => {
       {error && <div className={styles.error}>{error}</div>}
       {status === "succeeded" && (
         <div className={styles.success}>
-          Thank you! Your feedback has been submitted.
+          {t("app.settings.feedback.completed")}
         </div>
       )}
 
@@ -135,7 +145,7 @@ const FeedbackSection = () => {
         isSuggest={true}
         className={styles.submitButton}
       >
-        Send Feedback
+        {t("app.settings.feedback.send-feedback")}
       </MButton>
     </form>
   );

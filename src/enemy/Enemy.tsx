@@ -21,7 +21,6 @@ import { Ability, EnemyData } from "../models/enemy";
 export interface EnemyProps {
   enemy: EnemyData;
   onUpdate?: (enemy: EnemyData) => void;
-  link: string;
 }
 
 const getDamageIcon = (damageType: string | null) => {
@@ -68,7 +67,7 @@ export const dangerLevelStyle = (level: string | number): string => {
   }
 };
 
-const Enemy: React.FC<EnemyProps> = ({ enemy, onUpdate, link }) => {
+const Enemy = ({ enemy, onUpdate }: EnemyProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editableEnemy, setEditableEnemy] = useState<EnemyData>(enemy);
 
@@ -150,7 +149,7 @@ const Enemy: React.FC<EnemyProps> = ({ enemy, onUpdate, link }) => {
               className={styles.nameInput}
             />
           ) : (
-            <a href={link} target="blank">
+            <a href={enemy.link} target="blank">
               <h2 className={styles.name}>{editableEnemy.name}</h2>
             </a>
           )}

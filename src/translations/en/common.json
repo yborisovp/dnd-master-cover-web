@@ -1,0 +1,62 @@
+{
+  "app": {
+    "side-bar": {
+      "settings": "Settings",
+      "add-enemy": "Add Enemy",
+      "light-theme": "Light theme"
+    },
+    "settings": {
+      "general-button": "General",
+      "general": {
+        "language-text": "Language",
+        "language": {
+          "english": "English",
+          "russian": "Russian"
+        },
+        "panel-title": "Panel at right",
+        "panel-description": "Move main panel to the right.",
+        "lgiht-mode-description": "Enable light mode for the site.",
+        "lgiht-mode-title": "Light Mode "
+      },
+      "feedback-button": "Feedback",
+      "legal-button": "Legal",
+      "feedback": {
+        "contact-type": "Contact type",
+        "email": "Email",
+        "telegram": "Telegram",
+        "other": "Other platform",
+        "message": "Message",
+        "completed": "Thank you! Your feedback has been submitted.",
+        "social-media-text": "Your social media link",
+        "telegram-description": "Telegram Username {{username}}",
+        "other-description": "Link to profile",
+        "email-description": "Email Address",
+        "send-feedback": "Send feedback"
+      },
+      "legal": {
+        "header": "Legal Information",
+        "terms": "Terms of service and privacy policy will appear here"
+      }
+    },
+    "initiative-list": {
+      "type": "Type",
+      "name": "Name",
+      "initiative": "Initiative",
+      "actions": "Actions",
+      "player": "Player",
+      "enemy": "Enemy",
+      "enter-name": "Enter name",
+      "unnamed": "Unnamed",
+      "initiative-order": "Initiative Order",
+      "end-turn": "End turn"
+    },
+    "enemy-search": {
+      "add-enemy": "Add enemy",
+      "search-enemy-placeholder": "Search for an enemy...",
+      "all-danger-levels": "All Danger Levels",
+      "danger-greater-than-20": "Greater than 20",
+      "danger-asc": "Danger Ascending",
+      "danger-desc": "Danger Descending"
+    }
+  }
+}

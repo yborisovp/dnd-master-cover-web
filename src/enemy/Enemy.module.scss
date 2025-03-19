@@ -6,10 +6,10 @@ $bg: colors.$bg-color-1000;
 $bgHover: colors.$bg-color-800;
 $textColor: colors.$text-primary;
 $primaryColor: colors.$primary-color-800;
-$dangerLow: #50fa7b;    
-$dangerMed: #f1fa8c;    
-$dangerHigh: #ff5555;   
-$dangerExtreme: #bd93f9;
+$dangerLow: colors.$green-color-600;    
+$dangerMed: colors.$yellow-color-500;    
+$dangerHigh: colors.$error-color-700;   
+$dangerExtreme: colors.$violet-color-600;
 
 a {
   text-decoration: none;
@@ -178,7 +178,7 @@ a {
       width: 60px;
       background: transparent;
       border: none;
-      border-bottom: 2px solid #ff5555; 
+      border-bottom: 2px solid colors.$error-color-700; 
       color: $textColor;
       text-align: center;
       font-size: 1rem;
@@ -195,8 +195,8 @@ a {
       align-items: center;
       gap: 4px;
       background: transparent;
-      border: 2px solid #ff5555; 
-      color: #ff5555;
+      border: 2px solid colors.$error-color-700; 
+      color: colors.$error-color-700;
       padding: 4px 8px;
       border-radius: 4px;
       font-size: 0.9rem;
@@ -204,7 +204,7 @@ a {
       transition: background 0.2s ease;
 
       &:hover {
-        background: #ff5555;
+        background: colors.$error-color-700;
         color: #000;
       }
     }

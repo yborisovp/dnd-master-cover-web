@@ -1,5 +1,5 @@
-@use './styles/typography';
-@use './styles/colors.scss';
+@use "./styles/typography";
+@use "./styles/colors.scss";
 
 .app {
   display: flex;
@@ -9,78 +9,11 @@
   overflow: auto;
   min-height: 100vh;
   /* Subtle grid lines */
-  background-image:
-    linear-gradient(colors.$bg-color-800 1px, transparent 1px),
-    linear-gradient(90deg, colors.$bg-color-800 1px, transparent 1px);
+  background-image: linear-gradient(colors.$bg-color-900 1px, transparent 1px),
+    linear-gradient(90deg, colors.$bg-color-900 1px, transparent 1px);
   background-size: 20px 20px;
-}
 
-.container {
-  padding: 20px;
-
-  .actionsContainer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1rem;
-
-      .settings {
-        color: colors.$text-primary;
-        cursor: pointer;
-          display: block;
-          
-          transition: transform 0.2s ease-in;
-          &:hover {
-            transform: rotate(60deg);
-          }
-          &:active {
-            animation: rot 1s linear infinite;
-          }
-      }
-      button {
-        margin-bottom: 0;
-      }
+  &.rightAlign {
+    flex-flow: row-reverse;
   }
-}
-
-@keyframes rot {
-  from {
-    transform: rotate(-100deg);
-  }
-  to {
-    transform: rotate(180deg);
-  }
-}
-
-.modalBackdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-
-
-.modal {
-  background: colors.$bg-color-1000;
-  padding: 20px;
-  border-radius: 8px;
-  position: relative;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-}
-
-.closeButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: colors.$text-primary !important;
-  border: none;
-  font-size: 1.5rem;
-  color: #f8f8f2;
-  cursor: pointer
 }
