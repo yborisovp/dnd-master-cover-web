@@ -1,11 +1,24 @@
 @use "../../styles/colors.scss";
 
-.container {
-    display: flex;
-    justify-content: space-between;
-    
-}
+.general {
+    .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-p {
-    color: colors.$text-secondary; 
+        border-bottom: 1px solid colors.$bg-color-600;
+        margin-bottom: 0.625rem;
+        padding-bottom: 0.625rem;
+        &:last-child {
+            border-bottom: none;
+        }
+        span {
+            scale: 1.1;
+        }
+    }
+
+    p {
+        margin-top: 0.625rem;
+        color: colors.$text-secondary;
+    }
 }

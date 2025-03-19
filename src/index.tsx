@@ -6,16 +6,19 @@ import { PersistGate } from "redux-persist/integration/react";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { persistor, store } from "./redux/store";
+import LoaderHeartBit from "./regular/loaders/LoaderHeartBit";
 
+import "./i18n";
 import "./index.css";
 import "./styles/global.scss";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
+
 root.render(
   <Provider store={store}>
-    <PersistGate loading={null} persistor={persistor}>
+    <PersistGate loading={<LoaderHeartBit />} persistor={persistor}>
       <App />
     </PersistGate>
   </Provider>

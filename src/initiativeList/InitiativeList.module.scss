@@ -1,201 +1,247 @@
 @use "../styles/colors.scss";
 
-$bg: colors.$bg-color-1000;
+$bg: colors.$bg-color-800;
 $bgHover: colors.$bg-color-800;
 $textColor: colors.$text-primary;
 $primaryColor: colors.$primary-color-600;
-$dangerLow: #50fa7b;
-$dangerMed: #f1fa8c;
-$dangerHigh: #ff5555;
-$dangerExtreme: #bd93f9;
+$dangerLow: colors.$green-color-500;
+$dangerMed: colors.$yellow-color-500;
+$dangerHigh: colors.$error-color-700;
+$dangerExtreme: colors.$violet-color-600;
 
 .initiativeList {
-  max-width: 27rem;
+  width: 100%;
   margin-right: 1rem;
-  background: $bg; // e.g., #44475a
+  background: $bg;
   border-radius: 8px;
   margin: 0.5rem 0;
-  color: $textColor; // e.g., #f8f8f2
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-  // Removed height: fit-content to avoid any sticky-like behavior
-    // Removed transition: all 0.3s ease to reduce “stickiness”
+  color: $textColor;
+  
 
   &.collapsed {
     .listContainer {
       max-height: 0;
       opacity: 0;
-      pointer-events: none; // to avoid confusion
-      // If you still want a smooth collapse, reintroduce a transition here
+      pointer-events: none;
     }
   }
-}
 
-.header {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 1rem;
-  background: $bg;
-  border-radius: 8px 8px 0 0;
-
-  .headerContent {
+  .header {
     display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    
-    flex-grow: 1;
-    margin-bottom: 1rem;
+    padding: 0.75rem 1rem;
+    background: $bg;
+    border-radius: 8px 8px 0 0;
+
+    h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: $textColor;
+    }
+
+    .headerContent {
+      display: flex;
+      align-items: center;
+
+      flex-grow: 1;
+      margin-bottom: 1rem;
       justify-content: space-around;
-  }
 
-  .dragHandleIcon {
-    font-size: 1rem;
-    color: $textColor;
-    cursor: default; // or pointer, but not move if this is not the actual handle
+      .activePerson {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
 
-    &:hover {
-      color: $textColor
+        svg {
+          color: $textColor;
+        }
+
+        .initiativeBadge {
+          background: $dangerExtreme;
+          padding: 0.25rem 0.5rem;
+          border-radius: 4px;
+          font-weight: bold;
+        }
+      }
+    }
+
+    .dragHandleIcon {
+      font-size: 1rem;
+      color: $textColor;
+      cursor: default; // or pointer, but not move if this is not the actual handle
+
+      &:hover {
+        color: $textColor;
+      }
+    }
+
+    h3 {
+      margin: 0;
+      font-size: 1rem;
+      color: $textColor;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      width: 100%;
+
+      .iconButton {
+        padding: 0.8rem !important;
+      }
+    }
+
+    .listContainer {
+      // Removed transition: all 0.3s ease and max-height 1000px
+      // to avoid sticky or “snappy” effects
+      overflow: hidden;
+
+      .tableHeader {
+        display: grid;
+        grid-template-columns: 1.5fr 3fr 1fr 1fr;
+        gap: 0.5rem;
+        padding: 0.25rem 0.5rem;
+        margin-bottom: 0.5rem;
+        background: $bg;
+        border-radius: 4px;
+        font-weight: bold;
+        color: $primaryColor;
+      }
+
+      .listItem {
+        display: grid;
+        grid-template-columns: 1.5fr 3fr 1fr 1fr;
+        align-items: center;
+        gap: 0.5rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        padding-left: 0.5rem;
+        margin-bottom: 4px;
+        background: $bg;
+        border-radius: 4px;
+        // Removed transition to prevent sticky hover effect
+        border-left: 2px solid transparent;
+
+        &.player {
+          border-color: $dangerLow;
+        }
+
+        &.enemy {
+          border-color: $dangerHigh;
+        }
+
+        &.dragging {
+          background: $bgHover;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+          transform: scale(1.01);
+        }
+
+        &:hover {
+          background: $bgHover;
+        }
+      }
+
+      .typeSelect,
+      .nameInput,
+      .initiativeInput {
+        background: transparent;
+        width: 100%;
+        border: none;
+        border-bottom: 2px solid $primaryColor;
+        color: $textColor;
+        padding: 2px;
+        font-size: 0.9rem;
+        outline: none;
+
+        &:focus {
+          border-bottom-color: $primaryColor;
+        }
+      }
+
+      .typeBadge {
+        padding-left: 0.6rem;
+
+        svg {
+          font-size: 1.2rem;
+        }
+      }
+
+      .name {
+        font-weight: 500;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .initiative {
+        font-weight: bold;
+        text-align: center;
+        white-space: nowrap;
+      }
     }
   }
 
-  h3 {
-    margin: 0;
-    font-size: 1rem;
-    color: $textColor;
+  &.slaveCollapse {
+    width: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    
+    &:active {
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+    background: $bg;
+    border-radius: 8px;
+
+    .headerContent {
+      display: flex;
+      align-items: center;
+
+      flex-grow: 1;
+      margin-bottom: 0;
+      justify-content: space-around;
+
+      .activePerson {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        padding: 0;
+        border-radius: 4px;
+        font-size: small;
+        width: 1rem;
+
+        span {
+          text-overflow: ellipsis;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+
+        svg {
+          color: $textColor;
+        }
+
+        .initiativeBadge {
+          background: $dangerExtreme;
+          padding: 0.25rem 0.5rem;
+          border-radius: 4px;
+          font-weight: bold;
+        }
+      }
+    }
   }
 }
 
-.activePerson {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-
-  svg {
-    color: $textColor;
-  }
-
-  .initiativeBadge {
-    background: $dangerExtreme;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
-    font-weight: bold;
-  }
-}
-
-.controls {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.5rem;
-  width: 100%;
-}
-
-.iconButton {
-  padding: 0.8rem !important;
-}
-
-.listContainer {
-  // Removed transition: all 0.3s ease and max-height 1000px 
-    // to avoid sticky or “snappy” effects
-  overflow: hidden;
-}
-
-.tableHeader {
-  display: grid;
-  grid-template-columns: 1.5fr 3fr 1fr 1fr;
-  gap: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  margin-bottom: 0.5rem;
-  background: $bg;
-  border-radius: 4px;
-  font-weight: bold;
-  color: $primaryColor;
-}
-
-.listItem {
-  display: grid;
-  grid-template-columns: 1.5fr 3fr 1fr 1fr;
-  align-items: center;
-  gap: 0.5rem;
-  padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 0.5rem;
-  margin-bottom: 4px;
-  background: $bg;
-  border-radius: 4px;
-  // Removed transition to prevent sticky hover effect
-  border-left: 2px solid transparent;
-
-  &.player {
-    border-color: $dangerLow;
-  }
-
-  &.enemy {
-    border-color: $dangerHigh;
-  }
-
-  &.dragging {
-    background: $bgHover;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
-    transform: scale(1.01);
-  }
-
-  &:hover {
-    background: $bgHover;
-  }
-}
-
-.dragHandle {
-  font-size: 1rem;
-  color: $primaryColor;
-  cursor: move;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    color: $primaryColor;
-  }
-}
-
-.typeSelect,
-.nameInput,
-.initiativeInput {
-  background: transparent;
-  width: 100%;
-  border: none;
-  border-bottom: 2px solid $primaryColor;
-  color: $textColor;
-  padding: 2px;
-  font-size: 0.9rem;
-  outline: none;
-
-  &:focus {
-    border-bottom-color: $primaryColor;
-  }
-}
-
-.typeBadge {
-  padding-left: 0.6rem;
-
-  svg {
-    font-size: 1.2rem;
-  }
-}
-
-.name {
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.initiative {
-  font-weight: bold;
-  text-align: center;
-  white-space: nowrap;
-}
 // Safari-specific hack if needed
 @media not all and (min-resolution: 0.001dpcm) {
   @supports (-webkit-appearance: none) {

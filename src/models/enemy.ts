@@ -14,6 +14,7 @@ export interface EnemyData {
   class: string;
   description: string;
   abilities: Ability[];
+  link: string;
 }
 
 export interface Ability {
@@ -22,4 +23,11 @@ export interface Ability {
   hitDiceRoll: string | null;
   damageType: string | null;
   description: string;
+}
+
+
+export interface EnemyHolder {
+  id: number;
+  groupName: string;
+  enemies: EnemyData[];
 }

@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { InitiativeCharacter } from "../../models/initiative";
+import { getEnemyAsync } from "../thunx";
+import { EnemyData } from "../../models/enemy";
 
 type InitiativeSliceType = {
   initiativeList: InitiativeCharacter[];
@@ -45,6 +47,18 @@ export const slice = createSlice({
         }
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(
+      getEnemyAsync.fulfilled,
+      (state, action: PayloadAction<EnemyData>) => {
+        state.initiativeList.push({
+          id: `${state.initiativeList.length}`,
+          name: action.payload.name,
+          type: "enemy",
+        });
+      }
+    );
   },
 });
 

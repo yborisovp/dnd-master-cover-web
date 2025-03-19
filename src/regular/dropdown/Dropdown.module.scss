@@ -1,0 +1,144 @@
+@use "../../styles/colors.scss";
+
+.dropdown {
+    position: relative;
+
+    border: 1px solid colors.$bg-color-800;
+    border-radius: 1rem;
+
+    .dropdownButton {
+        border-radius: 1rem;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        align-items: center;
+        align-content: stretch;
+
+        background-color: colors.$bg-color-900;
+        color: colors.$text-primary;
+        border: none;
+
+        padding: 0.5rem 0.75rem;
+        cursor: pointer;
+
+        .dropdownItem {
+            padding: 0;
+            color: colors.$text-primary;
+            min-width: auto;
+            margin-right: 0.5rem;
+        }
+
+        // Normal (default) state
+        &:hover {
+            background-color: colors.$bg-color-800; // Hover state
+        }
+
+        &:active {
+            background-color: colors.$bg-color-700; // Pressed state
+        }
+
+        // Simple arrow indicator next to "Select"
+        .arrowDown,
+        .arrowUp {
+            transition: all 0.3s ease;
+            margin-left: 0.5rem;
+            border: solid colors.$bg-color-300;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 3px;
+        }
+
+        .arrowDown {
+            transform: rotate(45deg);
+        }
+
+        .arrowUp {
+            transform: rotate(224deg);
+        }
+    }
+
+    .dropdownContent {
+        position: absolute;
+        min-width: 160px;
+        background-color: colors.$bg-color-900;
+        border: 1px solid colors.$bg-color-800;
+        border-radius: 1rem;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+        z-index: 999;
+    }
+
+    .dropdownHeading {
+        padding: 0.5rem;
+        font-weight: bold;
+        border-bottom: 1px solid colors.$bg-color-800;
+        color: colors.$text-primary;
+    }
+
+    .dropdownItem {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        align-content: space-around;
+
+        padding: 0.5rem 0.75rem;
+
+        min-width: 15.375rem;
+        height: 2.5rem;
+        color: colors.$text-secondary;
+        cursor: pointer;
+
+        &:hover {
+            background-color: colors.$bg-color-800; // Hover state
+        }
+
+        &:active {
+            background-color: colors.$bg-color-700; // Pressed state
+        }
+
+        .icon {
+            margin-right: 0.5rem;
+            display: flex;
+            width: 24px;
+            height: 24px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 50%;
+
+            img {
+                object-fit: cover;
+                display: inline;
+                margin: 0 auto;
+                height: 100%;
+                width: auto;
+            }
+        }
+    }
+
+    /* Positions for the dropdown content */
+    .top-left {
+        bottom: 100%;
+        left: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .top-right {
+        bottom: 100%;
+        right: 0;
+        margin-bottom: 0.5rem;
+    }
+
+    .bottom-left {
+        top: 100%;
+        left: 0;
+        margin-top: 0.5rem;
+    }
+
+    .bottom-right {
+        top: 100%;
+        right: 0;
+        margin-top: 0.5rem;
+    }
+}

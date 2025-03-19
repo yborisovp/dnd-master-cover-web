@@ -1,0 +1,13 @@
+@use "../../styles/colors.scss";
+
+.container {
+    background: colors.$bg-color-800;
+    border-radius: 0.5rem;
+    padding: 10px;
+
+    margin-bottom: 1rem;
+
+    &:last-child{
+        margin: 0;
+    }
+}

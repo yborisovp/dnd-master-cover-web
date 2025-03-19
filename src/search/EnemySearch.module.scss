@@ -5,10 +5,10 @@ $textColor: colors.$text-primary;
 $accent: colors.$primary-color-600;
 $inputBg: colors.$bg-color-800;
 $inputBorder: colors.$bg-color-700;
-$dangerLow: #50fa7b;
-$dangerMed: #f1fa8c;
-$dangerHigh: #ff5555;
-$dangerExtreme: #bd93f9;
+$dangerLow: colors.$green-color-600; ;
+$dangerMed: colors.$yellow-color-500;
+$dangerHigh: colors.$error-color-700;
+$dangerExtreme: colors.$primary-color-700;
 
 .container {
   padding: 16px;
