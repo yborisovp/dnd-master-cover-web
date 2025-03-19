@@ -2,10 +2,17 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
 import { ApiEnemy, EnemyData } from "../../models/enemy";
 import { getEnemyAsync, getEnemyListAsync } from "../thunx";
+import { Layout } from "react-grid-layout";
+import { GridColsNumber } from "../../grid/EnemyGrid";
 
+interface WrappedEnemyData {
+  id: number;
+  enemy: EnemyData;
+}
 interface EnemyState {
   apiEnemies: ApiEnemy[];
-  activeEnemies: EnemyData[];
+  activeEnemies: WrappedEnemyData[];
+  layout: Layout[];
   loading: boolean;
   error: string | null;
 }
@@ -13,6 +20,7 @@ interface EnemyState {
 const initialState: EnemyState = {
   apiEnemies: [],
   activeEnemies: [],
+  layout: [],
   loading: false,
   error: null,
 };
@@ -26,10 +34,26 @@ export const enemySlice = createSlice({
         (e) => e.id === action.payload.id
       );
       if (existingIndex === -1) {
-        state.activeEnemies.push(action.payload);
+        const newIndex = state.activeEnemies.length;
+        const newEnemy: WrappedEnemyData = {
+          id: newIndex,
+          enemy: action.payload,
+        };
+        state.activeEnemies.push(newEnemy);
+        state.layout.push({
+          i: `${newIndex}`,
+          x: (newIndex * 2) % GridColsNumber,
+          y: 0,
+          w: 10,
+          h: 5,
+          isBounded: true,
+        });
       }
     },
-    updateEnemy: (state, action: PayloadAction<EnemyData>) => {
+    updateEnemy: (
+      state,
+      action: PayloadAction<{ id: number; enemy: EnemyData }>
+    ) => {
       const index = state.activeEnemies.findIndex(
         (e) => e.id === action.payload.id
       );
@@ -42,6 +66,9 @@ export const enemySlice = createSlice({
         (e) => e.id !== action.payload
       );
     },
+    onLayoutChange: (state, action: PayloadAction<Layout[]>) => {
+      state.layout = action.payload;
+    },
   },
   extraReducers: (builder) => {
     // getEnemyAsync handlers
@@ -53,14 +80,14 @@ export const enemySlice = createSlice({
       getEnemyAsync.fulfilled,
       (state, action: PayloadAction<EnemyData>) => {
         state.loading = false;
-        const index = state.activeEnemies.findIndex(
-          (e) => e.id === action.payload.id
-        );
-        if (index !== -1) {
-          state.activeEnemies[index] = action.payload;
-        } else {
-          state.activeEnemies.push(action.payload);
-        }
+
+        const newIndex = state.activeEnemies.length;
+        const newEnemy: WrappedEnemyData = {
+          id: newIndex,
+          enemy: action.payload,
+        };
+        newEnemy.enemy.name = `[${newIndex + 1}] ${newEnemy.enemy.name}`;
+        state.activeEnemies.push(newEnemy);
       }
     );
     builder.addCase(getEnemyAsync.rejected, (state, action) => {
@@ -97,5 +124,6 @@ export const selectActiveEnemies = (state: RootState) =>
 export const selectApiEnemies = (state: RootState) => state.enemy.apiEnemies;
 export const selectEnemyLoading = (state: RootState) => state.enemy.loading;
 export const selectEnemyError = (state: RootState) => state.enemy.error;
+export const selectLayout = (state: RootState) => state.enemy.layout;
 
 export default enemySlice.reducer;

@@ -1,24 +1,28 @@
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import {
-  FaArrowsAlt,
   FaBolt,
-  FaEdit,
   FaFire,
-  FaFistRaised,
   FaMinus,
+  FaPen,
   FaPlus,
   FaQuestion,
-  FaSave,
   FaSnowflake,
-  FaTint,
-} from "react-icons/fa";
+  FaTrashCan,
+} from "react-icons/fa6";
 
 import styles from "./Enemy.module.scss";
 import { Ability, EnemyData } from "../models/enemy";
+import { MButton } from "../regular/button/Button";
+import { useTranslation } from "react-i18next";
+import { FaArrowsAlt, FaFistRaised, FaSave, FaTint } from "react-icons/fa";
+import MAccordion from "../regular/accordion/Accordion";
+import MWrapper from "../regular/wrapper/Wrapper";
+import { useAppDispatch } from "../redux/hooks";
+import { removeEnemy } from "../redux/slice/enemies.slice";
 
 export interface EnemyProps {
+  localId: number;
   enemy: EnemyData;
   onUpdate?: (enemy: EnemyData) => void;
 }
@@ -67,17 +71,15 @@ export const dangerLevelStyle = (level: string | number): string => {
   }
 };
 
-const Enemy = ({ enemy, onUpdate }: EnemyProps) => {
+const Enemy = ({ localId, enemy, onUpdate }: EnemyProps) => {
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation("common");
   const [isEditing, setIsEditing] = useState(false);
   const [editableEnemy, setEditableEnemy] = useState<EnemyData>(enemy);
 
   // For controlling the Damage/Heal inputs
-  const [damageValue, setDamageValue] = useState<number>(0);
-  const [healValue, setHealValue] = useState<number>(0);
-
-  // New states for collapsible sections
-  const [isDescriptionCollapsed, setIsDescriptionCollapsed] = useState(true);
-  const [isAbilitiesCollapsed, setIsAbilitiesCollapsed] = useState(true);
+  const [damageValue, setDamageValue] = useState<number | undefined>();
+  const [healValue, setHealValue] = useState<number | undefined>();
 
   // Toggle between edit and view mode
   const handleToggleEdit = () => {
@@ -94,7 +96,7 @@ const Enemy = ({ enemy, onUpdate }: EnemyProps) => {
     const { name, value } = e.target;
     setEditableEnemy((prev) => ({
       ...prev,
-      [name]: name === "hp" ? Number(value) : value,
+      [name]: name === "hp" || name === "maxHp" ? Number(value) : value,
     }));
   };
 
@@ -113,7 +115,6 @@ const Enemy = ({ enemy, onUpdate }: EnemyProps) => {
   // Add damage to HP
   const handleDamage = () => {
     if (!damageValue) return;
-    const maxHp = editableEnemy.maxHp || editableEnemy.hp;
     const newHp = Math.max(0, editableEnemy.hp - damageValue);
     setEditableEnemy((prev) => ({ ...prev, hp: newHp }));
     setDamageValue(0);
@@ -134,7 +135,7 @@ const Enemy = ({ enemy, onUpdate }: EnemyProps) => {
   return (
     <div className={styles.enemy}>
       {/* HEADER */}
-      <div className={styles.header}>
+      <div className={`${styles.header} ${isEditing && styles.editing}`}>
         <div className={styles.leftGroup}>
           {/* Drag Handle in the top-left */}
           <span className={styles.dragHandle}>
@@ -155,8 +156,21 @@ const Enemy = ({ enemy, onUpdate }: EnemyProps) => {
           )}
         </div>
 
-        <div className={styles.rightGroup}>
+        <div className={`${styles.rightGroup} ${isEditing && styles.editing}`}>
           {/* Danger Level + Edit/Save in the top-right */}
+          {isEditing && (
+            <>
+              <MButton
+                isSuggest
+                className={styles.editButton}
+                onClick={() => dispatch(removeEnemy(localId))}
+              >
+                <>
+                  <FaTrashCan /> {t("app.enemy.delete")}
+                </>
+              </MButton>
+            </>
+          )}
           <span
             className={`${styles.dangerLevel} ${
               styles[
@@ -166,35 +180,60 @@ const Enemy = ({ enemy, onUpdate }: EnemyProps) => {
           >
             {editableEnemy.dangerLevel}
           </span>
-          <button className={styles.editButton} onClick={handleToggleEdit}>
+          <MButton
+            isSuggest
+            className={styles.editButton}
+            onClick={handleToggleEdit}
+          >
             {isEditing ? (
               <>
-                <FaSave /> Save
+                <FaSave /> {t("app.enemy.save")}
               </>
             ) : (
               <>
-                <FaEdit /> Edit
+                <FaPen /> {t("app.enemy.edit")}
               </>
             )}
-          </button>
+          </MButton>
         </div>
       </div>
 
-      {/* STATS (HP, Class) */}
+      {/* STATS (HP, Max HP, Class) */}
       <div className={styles.stats}>
         <div className={styles.stat}>
           <label>HP</label>
           {isEditing ? (
-            <input
-              type="number"
-              name="hp"
-              value={editableEnemy.hp}
-              onChange={handleInputChange}
-              className={styles.hpInput}
-            />
+            <div className={styles.editorContainer}>
+              <div>
+                <div>Current HP</div>
+                <input
+                  type="number"
+                  name="hp"
+                  value={editableEnemy.hp}
+                  onChange={handleInputChange}
+                  className={styles.hpInput}
+                />
+              </div>
+              <div>
+                <div>Max HP</div>
+                <input
+                  type="number"
+                  name="maxHp"
+                  value={
+                    editableEnemy.maxHp !== undefined
+                      ? editableEnemy.maxHp
+                      : editableEnemy.hp
+                  }
+                  onChange={handleInputChange}
+                  className={styles.hpInput}
+                />
+              </div>
+            </div>
           ) : (
             <>
-              <span className={styles.hp}>{editableEnemy.hp}</span>
+              <span className={styles.hp}>
+                {editableEnemy.hp} / {maxHp}
+              </span>
               <div className={styles.healthBar}>
                 <div
                   className={styles.healthBarFill}
@@ -206,15 +245,17 @@ const Enemy = ({ enemy, onUpdate }: EnemyProps) => {
         </div>
 
         <div className={styles.stat}>
-          <label>Armor class</label>
+          <label>{t("app.enemy.armor-class")}</label>
           {isEditing ? (
-            <input
-              type="text"
-              name="class"
-              value={editableEnemy.class}
-              onChange={handleInputChange}
-              className={styles.classInput}
-            />
+            <div className={styles.editorContainer}>
+              <input
+                type="text"
+                name="class"
+                value={editableEnemy.class}
+                onChange={handleInputChange}
+                className={styles.classInput}
+              />
+            </div>
           ) : (
             <span className={styles.class}>{editableEnemy.class}</span>
           )}
@@ -228,133 +269,144 @@ const Enemy = ({ enemy, onUpdate }: EnemyProps) => {
             type="number"
             value={damageValue}
             onChange={(e) => setDamageValue(Number(e.target.value))}
-            placeholder="Damage"
             className={styles.damageInput}
           />
-          <button onClick={handleDamage} className={styles.damageButton}>
-            <FaMinus /> Damage
-          </button>
+
+          <MButton onClick={handleDamage} className={styles.damageButton}>
+            <>
+              <FaMinus /> {t("app.enemy.damage")}
+            </>
+          </MButton>
         </div>
         <div className={styles.healControl}>
           <input
             type="number"
             value={healValue}
             onChange={(e) => setHealValue(Number(e.target.value))}
-            placeholder="Heal"
             className={styles.healInput}
           />
-          <button onClick={handleHeal} className={styles.healButton}>
-            <FaPlus /> Heal
-          </button>
+          <MButton onClick={handleHeal} className={styles.healButton}>
+            <>
+              <FaPlus /> {t("app.enemy.heal")}
+            </>
+          </MButton>
         </div>
       </div>
 
       {/* DESCRIPTION */}
+
       <div className={styles.descriptionSection}>
-        <h4
-          onClick={() => setIsDescriptionCollapsed(!isDescriptionCollapsed)}
-          style={{ cursor: "pointer" }}
-        >
-          Description{" "}
-          {isDescriptionCollapsed ? <IoIosArrowDown /> : <IoIosArrowUp />}
-        </h4>
-        {!isDescriptionCollapsed &&
-          (isEditing ? (
-            <textarea
-              name="description"
-              value={editableEnemy.description}
-              onChange={handleInputChange}
-              className={styles.descriptionInput}
-            />
-          ) : (
-            <p className={styles.description}>{editableEnemy.description}</p>
-          ))}
+        <MAccordion title={t("app.enemy.description")}>
+          <>
+            {isEditing ? (
+              <textarea
+                rows={8}
+                name="description"
+                value={editableEnemy.description}
+                onChange={handleInputChange}
+                className={styles.descriptionInput}
+              />
+            ) : (
+              <>
+                {editableEnemy.description.split("\n").map((el) => {
+                  if (el.trim() === "") return <></>;
+
+                  return <MWrapper>{el.trim()}</MWrapper>;
+                })}
+              </>
+            )}
+          </>
+        </MAccordion>
       </div>
 
       {/* ABILITIES */}
       <div className={styles.abilities}>
-        <h3
-          onClick={() => setIsAbilitiesCollapsed(!isAbilitiesCollapsed)}
-          style={{ cursor: "pointer" }}
-        >
-          Abilities{" "}
-          {isAbilitiesCollapsed ? <IoIosArrowDown /> : <IoIosArrowUp />}
-        </h3>
-        {!isAbilitiesCollapsed &&
-          editableEnemy.abilities.map((ability, index) => (
-            <div key={index} className={styles.ability}>
-              <div className={styles.abilityHeader}>
+        <MAccordion title={t("app.enemy.abilites")}>
+          <>
+            {editableEnemy.abilities.map((ability, index) => (
+              <div key={index} className={styles.ability}>
+                <div className={styles.abilityHeader}>
+                  {isEditing ? (
+                    <>
+                      <input
+                        type="text"
+                        name="weaponType"
+                        value={ability.weaponType}
+                        onChange={(e) =>
+                          handleAbilityChange(
+                            index,
+                            "weaponType",
+                            e.target.value
+                          )
+                        }
+                        className={styles.abilityInput}
+                        placeholder={t("app.enemy.weapon-type")}
+                      />
+                      <input
+                        type="text"
+                        name="diceRoll"
+                        value={ability.hitDiceRoll ?? ""}
+                        onChange={(e) =>
+                          handleAbilityChange(
+                            index,
+                            "hitDiceRoll",
+                            e.target.value
+                          )
+                        }
+                        className={styles.abilityInput}
+                        placeholder={t("app.enemy.dice-roll")}
+                      />
+                      <input
+                        type="text"
+                        name="damageType"
+                        value={ability.damageType ?? ""}
+                        onChange={(e) =>
+                          handleAbilityChange(
+                            index,
+                            "damageType",
+                            e.target.value
+                          )
+                        }
+                        className={styles.abilityInput}
+                        placeholder={t("app.enemy.damage-type")}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <span className={styles.weaponType}>
+                        {ability.weaponType}
+                      </span>
+                      <span className={styles.diceRoll}>
+                        {ability.attackDiceRoll}
+                      </span>
+                      <span className={styles.diceRoll}>
+                        {ability.hitDiceRoll}
+                      </span>
+                      <span className={styles.damageType}>
+                        {getDamageIcon(ability.damageType)} {ability.damageType}
+                      </span>
+                    </>
+                  )}
+                </div>
                 {isEditing ? (
-                  <>
-                    <input
-                      type="text"
-                      name="weaponType"
-                      value={ability.weaponType}
-                      onChange={(e) =>
-                        handleAbilityChange(index, "weaponType", e.target.value)
-                      }
-                      className={styles.abilityInput}
-                      placeholder="Weapon Type"
-                    />
-                    <input
-                      type="text"
-                      name="diceRoll"
-                      value={ability.hitDiceRoll ?? ""}
-                      onChange={(e) =>
-                        handleAbilityChange(
-                          index,
-                          "hitDiceRoll",
-                          e.target.value
-                        )
-                      }
-                      className={styles.abilityInput}
-                      placeholder="Dice Roll"
-                    />
-                    <input
-                      type="text"
-                      name="damageType"
-                      value={ability.damageType ?? ""}
-                      onChange={(e) =>
-                        handleAbilityChange(index, "damageType", e.target.value)
-                      }
-                      className={styles.abilityInput}
-                      placeholder="Damage Type"
-                    />
-                  </>
+                  <textarea
+                    name="abilityDescription"
+                    value={ability.description}
+                    onChange={(e) =>
+                      handleAbilityChange(index, "description", e.target.value)
+                    }
+                    className={styles.abilityDescriptionInput}
+                    placeholder={t("app.enemy.ability-description")}
+                  />
                 ) : (
-                  <>
-                    <span className={styles.weaponType}>
-                      {ability.weaponType}
-                    </span>
-                    <span className={styles.diceRoll}>
-                      {ability.attackDiceRoll}
-                    </span>
-                    <span className={styles.diceRoll}>
-                      {ability.hitDiceRoll}
-                    </span>
-                    <span className={styles.damageType}>
-                      {getDamageIcon(ability.damageType)} {ability.damageType}
-                    </span>
-                  </>
+                  <p className={styles.abilityDescription}>
+                    {ability.description}
+                  </p>
                 )}
               </div>
-              {isEditing ? (
-                <textarea
-                  name="abilityDescription"
-                  value={ability.description}
-                  onChange={(e) =>
-                    handleAbilityChange(index, "description", e.target.value)
-                  }
-                  className={styles.abilityDescriptionInput}
-                  placeholder="Ability Description"
-                />
-              ) : (
-                <p className={styles.abilityDescription}>
-                  {ability.description}
-                </p>
-              )}
-            </div>
-          ))}
+            ))}
+          </>
+        </MAccordion>
       </div>
     </div>
   );

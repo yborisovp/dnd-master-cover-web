@@ -45,7 +45,8 @@ export const getEnemyAsync = createAsyncThunk<EnemyData, string>(
     const result = await ky
       .get(`${API_URL}/enemy?${queryParams}`)
       .json<EnemyData>();
-    result.link = link;
+      
+    result.link = "https://dnd.su/bestiary/" + link;
     return result;
   }
 );

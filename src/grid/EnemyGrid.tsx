@@ -1,24 +1,25 @@
-import React, { useState } from "react";
 import GridLayout, { Layout } from "react-grid-layout";
 import styles from "./EnemyGrid.module.scss";
 import Enemy from "../enemy/Enemy";
 import { useAppSelector } from "../redux/hooks";
-import { selectActiveEnemies } from "../redux/slice/enemies.slice";
+import {
+  selectActiveEnemies,
+  selectLayout,
+} from "../redux/slice/enemies.slice";
 
+export const GridColsNumber = 12;
 const EnemyGrid = () => {
+  const layout = useAppSelector(selectLayout);
   const enemies = useAppSelector(selectActiveEnemies);
-  const [layouts, setLayouts] = useState<Layout[]>([]);
 
-  const onLayoutChange = (layout: Layout[]) => {
-    setLayouts(layout);
-  };
+  const onLayoutChange = (layout: Layout[]) => {};
 
   return (
     <div className={styles.container}>
       <GridLayout
         className={styles.layout}
-        layout={layouts}
-        cols={12}
+        layout={layout}
+        cols={GridColsNumber}
         rowHeight={40}
         width={1600}
         compactType={null}
@@ -29,7 +30,7 @@ const EnemyGrid = () => {
       >
         {enemies.map((enemy, index) => (
           <div key={index}>
-            <Enemy enemy={enemy} />
+            <Enemy localId={enemy.id} enemy={enemy.enemy} />
           </div>
         ))}
       </GridLayout>

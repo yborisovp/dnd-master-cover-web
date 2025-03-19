@@ -57,6 +57,20 @@
       "danger-greater-than-20": "Greater than 20",
       "danger-asc": "Danger Ascending",
       "danger-desc": "Danger Descending"
+    },
+    "enemy": {
+      "save": "Save",
+      "damage": "Damage",
+      "edit": "Edit",
+      "armor-class": "Armor class",
+      "heal": "Heal",
+      "description": "Description",
+      "abilites": "Abilities",
+      "weapon-type": "Weapon Type",
+      "dice-roll": "Dice Roll",
+      "damage-type": "Damage Type",
+      "ability-description": "Ability Description",
+      "delete": "Delete"
     }
   }
 }

@@ -1,33 +1,24 @@
-/* Enemy.module.scss */
-/* Dracula-ish colors */
 @use "../styles/colors.scss";
-
-$bg: colors.$bg-color-1000;
-$bgHover: colors.$bg-color-800;
-$textColor: colors.$text-primary;
-$primaryColor: colors.$primary-color-800;
-$dangerLow: colors.$green-color-600;    
-$dangerMed: colors.$yellow-color-500;    
-$dangerHigh: colors.$error-color-700;   
-$dangerExtreme: colors.$violet-color-600;
 
 a {
   text-decoration: none;
 }
+
 .enemy {
-  background: $bg;
+  background: colors.$bg-color-900;
   border-radius: 8px;
-  padding: 16px;
-  margin: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  color: $textColor;
-  max-width: 22rem;
-    /* So it doesn't stretch too wide in the grid */
+  padding: 0.5rem 0.75rem;
+  margin: 0.5rem 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  color: colors.$text-primary;
+  width: fit-content;
+  min-width: 25rem;
 
   &:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.35);
   }
 
   .header {
@@ -36,23 +27,31 @@ a {
     align-items: center;
     margin-bottom: 12px;
 
+    &.editing {
+      flex-direction: column-reverse;
+    }
+
     .leftGroup {
       display: flex;
       align-items: center;
       gap: 8px;
+      a {
+        .name {
+          width: 13rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          font-size: 1.2rem;
+          font-weight: bold;
+          color: colors.$text-primary;
+        }
+      }
 
       .dragHandle {
         /* The handle recognized by react-grid-layout */
         cursor: move;
         font-size: 1.2rem;
-        color: $textColor
-      }
-
-      .name {
-        font-size: 1.2rem;
-        font-weight: bold;
-        margin: 0;
-        color: $primaryColor;
+        color: colors.$text-primary;
       }
 
       .nameInput {
@@ -60,8 +59,8 @@ a {
         font-weight: bold;
         border: none;
         background: transparent;
-        color: $primaryColor;
-        border-bottom: 2px solid $primaryColor;
+        color: colors.$primary-color-800;
+        border-bottom: 2px solid colors.$primary-color-800;
         outline: none;
       }
     }
@@ -71,6 +70,12 @@ a {
       align-items: center;
       gap: 8px;
 
+      &.editing{
+        width: 100%;
+        justify-content: space-between;
+      }
+
+
       .dangerLevel {
         padding: 4px 8px;
         border-radius: 4px;
@@ -78,28 +83,34 @@ a {
         font-size: 0.8rem;
         text-transform: uppercase;
 
-        &--low { background: $dangerLow; color: #000; }
-        &--medium { background: $dangerMed; color: #000; }
-        &--high { background: $dangerHigh; }
-        &--extreme { background: $dangerExtreme; }
+        &--low {
+          background: colors.$green-color-600;
+        }
+        &--medium {
+          background: colors.$yellow-color-500;
+        }
+        &--high {
+          background: colors.$error-color-700;
+        }
+        &--extreme {
+          background: colors.$violet-color-600;
+        }
       }
 
       .editButton {
         display: inline-flex;
         align-items: center;
         gap: 4px;
+        margin: 0;
         background: transparent;
-        border: 2px solid $primaryColor;
-        color: $primaryColor;
-        padding: 4px 8px;
-        border-radius: 4px;
+        border: 2px solid colors.$primary-color-500;
+
+        padding: 0.5rem 0.75rem;
         font-size: 0.9rem;
         cursor: pointer;
-        transition: background 0.2s ease;
 
         &:hover {
-          background: $primaryColor;
-          color: #000;
+          background: colors.$primary-color-500;
         }
       }
     }
@@ -111,51 +122,69 @@ a {
     margin-bottom: 12px;
 
     .stat {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-content: center;
+
       text-align: center;
       flex: 1;
 
       label {
         display: block;
         font-size: 0.75rem;
-        color: #ccc;
+        color: colors.$text-tertiary;
         margin-bottom: 4px;
       }
 
       .hp {
         font-size: 1.2rem;
         font-weight: bold;
-        color: $dangerHigh;
+        color: colors.$error-color-500;
       }
 
       .class {
         font-size: 1.2rem;
-        color: $dangerLow;
+        color: colors.$yellow-color-500;
       }
 
+      .editorContainer {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-around;
+        align-items: center;
+        align-content: space-around;
+        font-size: 0.8rem;
+        div {
+          margin-bottom: 0.2rem;
+        }
+      }
       .hpInput,
       .classInput {
-        width: 60px;
+        width: 5rem;
         background: transparent;
         border: none;
-        border-bottom: 2px solid $primaryColor;
-        color: $textColor;
+        border-bottom: 2px solid colors.$primary-color-800;
+        color: colors.$text-primary;
         font-size: 1rem;
         text-align: center;
         outline: none;
+      }
+      .classInput {
+        width: 12rem;
       }
     }
 
     .healthBar {
       width: 100px;
       height: 10px;
-      background: #6272a4;
-      border-radius: 5px;
+      border-radius: 4px;
       overflow: hidden;
       margin: 4px auto;
 
       .healthBarFill {
         height: 100%;
-        background: $dangerHigh;
+        background: colors.$error-color-500;
         transition: width 0.3s ease;
       }
     }
@@ -175,69 +204,65 @@ a {
 
     .damageInput,
     .healInput {
-      width: 60px;
+      width: 4rem;
       background: transparent;
       border: none;
-      border-bottom: 2px solid colors.$error-color-700; 
-      color: $textColor;
+      border-bottom: 2px solid colors.$error-color-500;
+      color: colors.$text-primary;
       text-align: center;
       font-size: 1rem;
       outline: none;
 
       &::placeholder {
-        color: $textColor
+        color: colors.$text-primary;
       }
     }
 
     .damageButton,
     .healButton {
+      margin: 0;
       display: inline-flex;
       align-items: center;
       gap: 4px;
       background: transparent;
-      border: 2px solid colors.$error-color-700; 
-      color: colors.$error-color-700;
-      padding: 4px 8px;
-      border-radius: 4px;
+
+      border: 2px solid colors.$error-color-500;
+
+      padding: 0.5rem 0.75rem;
       font-size: 0.9rem;
-      cursor: pointer;
-      transition: background 0.2s ease;
 
       &:hover {
-        background: colors.$error-color-700;
-        color: #000;
+        background: colors.$error-color-500;
       }
     }
 
-       .healInput {
-         border-bottom-color: $dangerLow;
-       }
-       .healButton {
-         border-color: $dangerLow;
-         color: $dangerLow;
-         &:hover {
-           background: $dangerLow;
-           color: #000;
-         }
-       }
-    
+    .healInput {
+      border-bottom-color: colors.$green-color-500;
+    }
+    .healButton {
+      border-color: colors.$green-color-500;
+
+      &:hover {
+        background: colors.$green-color-500;
+      }
+    }
   }
 
   .descriptionSection {
     margin-bottom: 16px;
 
     h4 {
-        display: flex;
-        align-items: center;
-        gap: 2px;
-      }
+      display: flex;
+      align-items: center;
+      gap: 2px;
+    }
 
     .descriptionInput {
       width: 100%;
       background: transparent;
       border: none;
-      border-bottom: 2px solid $primaryColor;
-      color: $textColor;
+      border-bottom: 2px solid colors.$primary-color-800;
+      color: colors.$text-primary;
       padding: 4px;
       resize: vertical;
       outline: none;
@@ -245,33 +270,32 @@ a {
     }
 
     .description {
-    
       margin: 0;
       font-size: 0.95rem;
       font-style: italic;
-      color: $textColor;
+      color: colors.$text-primary;
     }
   }
 
   .abilities {
     h3 {
       display: flex;
-        align-items: center;
-        gap: 2px;
+      align-items: center;
+      gap: 2px;
       margin-bottom: 8px;
-      color: $primaryColor;
+      color: colors.$primary-color-800;
       font-size: 1rem;
     }
 
     .ability {
-      background: $bgHover;
-      border-radius: 6px;
+      background: colors.$bg-color-800;
+      border-radius: 0.5rem;
       padding: 10px;
       margin-bottom: 10px;
-      transition: background 0.2s ease;
+      transition: all 0.2s ease;
 
       &:hover {
-        background: $bgHover;
+        background: colors.$bg-color-800;
       }
 
       .abilityHeader {
@@ -282,7 +306,7 @@ a {
 
         .weaponType {
           font-weight: bold;
-          color: $primaryColor;
+          color: colors.$primary-color-800;
           margin-right: 8px;
         }
 
@@ -298,7 +322,7 @@ a {
           display: flex;
           align-items: center;
           gap: 4px;
-          color: $dangerHigh;
+          color: colors.$error-color-700;
           font-style: italic;
         }
 
@@ -306,13 +330,13 @@ a {
           background: transparent;
           border: none;
           border-bottom: 2px solid #ccc;
-          color: $textColor;
+          color: colors.$text-primary;
           padding: 2px;
           margin-right: 8px;
           outline: none;
 
           &:focus {
-            border-bottom-color: $primaryColor;
+            border-bottom-color: colors.$primary-color-800;
           }
         }
       }
@@ -320,7 +344,7 @@ a {
       .abilityDescription {
         margin: 0;
         font-size: 0.9rem;
-        color: $textColor;
+        color: colors.$text-primary;
       }
 
       .abilityDescriptionInput {
@@ -328,14 +352,14 @@ a {
         background: transparent;
         border: none;
         border-bottom: 2px solid #ccc;
-        color: $textColor;
+        color: colors.$text-primary;
         padding: 4px;
         resize: vertical;
         outline: none;
         font-size: 0.9rem;
 
         &:focus {
-          border-bottom-color: $primaryColor;
+          border-bottom-color: colors.$primary-color-800;
         }
       }
     }

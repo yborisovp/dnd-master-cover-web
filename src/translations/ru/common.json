@@ -57,6 +57,20 @@
       "danger-desc": "Опасность нисх.",
       "danger-greater-than-20": "Больше 20",
       "search-enemy-placeholder": "Поиск врагов..."
+    },
+    "enemy": {
+      "abilites": "Способности",
+      "ability-description": "Описание способностей",
+      "armor-class": "Тип брони",
+      "damage": "Урон",
+      "damage-type": "Тип урона",
+      "description": "Описание",
+      "dice-roll": "Бросок кубиков",
+      "edit": "Изменить",
+      "heal": "Лечение",
+      "save": "Сохранить",
+      "weapon-type": "Тип оружия",
+      "delete": "Удалить"
     }
   }
 }
