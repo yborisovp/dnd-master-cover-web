@@ -2,6 +2,11 @@
 FROM node:lts-alpine as build
 WORKDIR /app
 
+# Define the build argument (this will be provided by Coolify)
+ARG REACT_APP_API_URL
+# Set it as an environment variable for the build process
+ENV REACT_APP_API_URL=${REACT_APP_API_URL}
+
 # Copy package files and install dependencies (including sass)
 COPY package.json yarn.lock ./
 RUN yarn add sass && yarn install
