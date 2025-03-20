@@ -1,24 +1,28 @@
-# pull the base image
-FROM node:lts-alpine
-
-# set the working direction
+# Stage 1: Build the React app
+FROM node:lts-alpine as build
 WORKDIR /app
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+# Copy package files and install dependencies (including sass)
+COPY package.json yarn.lock ./
+RUN yarn add sass && yarn install
 
-# install app dependencies
-COPY package.json ./
+# Copy the rest of the application code
+COPY . .
 
-COPY yarn.lock ./
+# Build the production bundle
+RUN yarn build
 
-# rebuild node-sass
-RUN yarn add sass
+# Stage 2: Serve the app with Nginx
+FROM nginx:alpine
 
-RUN yarn
+# Remove default nginx website
+RUN rm -rf /usr/share/nginx/html/*
 
-# add app
-COPY . ./
+# Copy built files from the previous stage
+COPY --from=build /app/build /usr/share/nginx/html
 
-# start app
-CMD ["yarn", "start"]
+# Expose port 80
+EXPOSE 80
+
+# Start Nginx when the container launches
+CMD ["nginx", "-g", "daemon off;"]
