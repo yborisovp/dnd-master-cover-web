@@ -1,0 +1,306 @@
+@use "sass:color";
+@use "sass:math";
+@use "../styles/colors.scss" as colors;
+
+$controls-height: 2.75rem;
+$result-width: 100%;
+$spacing: 0.5rem;
+$shadow:
+  0 1px 3px rgba(0, 0, 0, 0.1),
+  0 1px 2px rgba(0, 0, 0, 0.06);
+$shadow-strong:
+  0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  0 4px 6px -2px rgba(0, 0, 0, 0.05);
+$transition-speed: 0.2s;
+$transition-speed-fast: 0.15s;
+
+.container {
+  position: fixed;
+  bottom: $spacing * 2;
+  right: $spacing * 2;
+  z-index: 1000;
+
+  &.left {
+    right: auto;
+    left: $spacing * 2;
+  }
+
+  .controls {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: stretch;
+    gap: $spacing;
+  }
+
+  .selectorContainer {
+    position: relative;
+  }
+
+  .selectorButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: colors.$bg-color-900;
+    color: colors.$text-primary;
+    border: 1px solid colors.$bg-color-800;
+    border-radius: 6px;
+    padding: $spacing;
+    height: $controls-height;
+    min-width: $controls-height;
+    width: auto;
+    cursor: pointer;
+    box-shadow: $shadow;
+    transition: all $transition-speed-fast ease;
+
+    svg {
+      flex-shrink: 0;
+    }
+
+    &:hover:not(:disabled) {
+      border-color: color-mix(in srgb, colors.$bg-color-800, black 10%);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      border-color: colors.$primary-color-800;
+      box-shadow:
+        $shadow,
+        0 0 0 2px rgba(66, 153, 225, 0.3);
+    }
+  }
+
+  .selectorMenu {
+    position: absolute;
+    bottom: calc(100% + #{math.div($spacing, 2)});
+    left: 0;
+    width: 150px;
+    background: colors.$bg-color-900;
+    border-radius: 8px;
+    border: 1px solid colors.$bg-color-1000;
+    box-shadow: $shadow-strong;
+    padding: math.div($spacing, 2);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: math.div($spacing, 4);
+    opacity: 1;
+    transform-origin: bottom left;
+    animation: fadeInScale $transition-speed ease-out forwards;
+  }
+
+  .selectorItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: calc($spacing * 0.75) $spacing;
+    border: none;
+    background: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: left;
+    font-size: 0.9rem;
+    color: colors.$text-secondary;
+    width: 100%;
+    transition:
+      background-color $transition-speed-fast ease,
+      color $transition-speed-fast ease;
+
+    &:hover {
+      background-color: colors.$primary-color-700;
+      color: colors.$text-quaternary;
+    }
+
+    &:active,
+    &:focus {
+      background-color: colors.$primary-color-600;
+      color: colors.$text-quaternary;
+    }
+
+    &.selected {
+      background-color: colors.$primary-color-600;
+      color: colors.$text-quaternary;
+      font-weight: 500;
+    }
+  }
+
+  .customOption {
+    span {
+      flex-shrink: 0;
+      margin-right: $spacing;
+    }
+  }
+
+  .customInput {
+    flex-grow: 1;
+    width: 50px;
+    padding: math.div($spacing, 2);
+    border: 1px solid colors.$bg-color-800;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    text-align: center;
+
+    &:focus {
+      outline: none;
+      border-color: colors.$primary-color-800;
+      box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.2);
+    }
+    appearance: textfield;
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+  }
+
+  .rollButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: math.div($spacing, 2);
+    background-color: colors.$primary-color-500;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0 $spacing * 2;
+    height: $controls-height;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: $shadow;
+    transition: all $transition-speed-fast ease;
+    white-space: nowrap;
+
+    &:hover:not(:disabled) {
+      background-color: colors.$primary-color-700;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      box-shadow:
+        $shadow,
+        0 0 0 3px rgba(66, 153, 225, 0.4);
+    }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background-color: color-mix(in srgb, colors.$primary-color-800, white 15%);
+    }
+  }
+
+  .resultsWrapper {
+    position: absolute;
+    bottom: calc(100% + #{$spacing});
+    z-index: 2;
+    width: $result-width;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing;
+    overflow: hidden;
+
+    .container:not(.left) & {
+      right: 0;
+      left: auto;
+    }
+    .container.left & {
+      left: 0;
+      right: auto;
+    }
+  }
+
+  .result {
+    position: relative;
+    background: colors.$bg-color-900;
+    border-radius: 6px;
+    border: 1px solid colors.$bg-color-800;
+    box-shadow: $shadow;
+    padding: calc($spacing * 1.25);
+    box-sizing: border-box;
+    overflow: hidden;
+
+    transition:
+      max-height $transition-speed ease-in-out,
+      opacity $transition-speed ease-in-out,
+      transform $transition-speed ease-in-out,
+      margin-top $transition-speed ease-in-out,
+      padding $transition-speed ease-in-out,
+      border $transition-speed ease-in-out;
+
+    &.hidden {
+      opacity: 0;
+      max-height: 0;
+      transform: translateY(5px);
+      margin-top: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      pointer-events: none;
+      border-color: transparent;
+    }
+
+    &.visible {
+      opacity: 1;
+      max-height: 100px;
+      transform: translateY(0);
+      border-color: colors.$bg-color-800;
+    }
+
+    .closeButton {
+      position: absolute;
+      top: math.div($spacing, 2);
+      right: math.div($spacing, 2);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: math.div($spacing, 2);
+      font-size: 1rem;
+      color: colors.$text-tertiary;
+      transition: color 0.2s ease;
+      line-height: 1;
+
+      &:hover {
+        color: colors.$text-primary;
+      }
+    }
+
+    .resultHeader {
+      font-size: 0.9rem;
+      color: colors.$text-primary;
+      margin-bottom: math.div($spacing, 2);
+      font-weight: 500;
+      padding-right: $spacing * 2;
+    }
+  }
+
+  .spinner {
+    display: inline-block;
+    width: 0.8em;
+    height: 0.8em;
+    margin-left: math.div($spacing, 2);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #fff;
+    animation: spin 1s ease-in-out infinite;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

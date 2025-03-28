@@ -7,22 +7,32 @@
     min-height: 30rem;
     animation: slideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
-.nav {
+.navigationWrapper {
     display: flex;
     flex-direction: column;
-    width: 13rem;
-    padding: 1.5rem;
-    border-right: 1px solid colors.$bg-color-600;
-}
+    justify-content: space-between;
 
-.navItem {
-    width: 10rem;
-    padding: 0.75rem 1rem;
-    margin: 4px 0;
-    border-radius: 6px;
-    text-align: left;
-    transition: all 0.2s ease;
+    border-right: 1px solid colors.$bg-color-600;
+    .nav {
+        display: flex;
+        flex-direction: column;
+        width: 13rem;
+        padding: 1.5rem;
+
+        .navItem {
+            width: 10rem;
+            padding: 0.75rem 1rem;
+            margin: 4px 0;
+            border-radius: 6px;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+    }
+    .social {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 .content {

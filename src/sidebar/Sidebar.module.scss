@@ -18,10 +18,45 @@
     background-color: colors.$bg-color-900;
 
     .sidebarHandle {
-        position: absolute;
-        right: 1rem;
+        position: absolute !important;
+        right: 1.5rem !important;
+        top: 0.8rem;
         cursor: pointer;
-        color: colors.$text-secondary;
+        color: colors.$text-primary !important;
+
+        cursor: pointer;
+        input {
+            display: none;
+            &:checked {
+                + {
+                    svg {
+                        right: 1rem !important;
+                        transform: rotate(-45deg);
+                        .line-top-bottom {
+                            stroke-dasharray: 20 300;
+                            stroke-dashoffset: -32.42;
+                        }
+                    }
+                }
+            }
+        }
+        svg {
+            height: 2em;
+        }
+
+        .line {
+            fill: none;
+            stroke: colors.$text-secondary;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-width: 3;
+            transition:
+                stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+                stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .line-top-bottom {
+            stroke-dasharray: 12 63;
+        }
     }
 
     .playersGroup {
@@ -99,7 +134,6 @@
         .initiativeList {
             width: 100%;
             margin-top: 2rem;
-
         }
         .secondPartContainer {
             position: relative;

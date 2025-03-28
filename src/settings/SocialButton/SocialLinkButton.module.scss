@@ -1,0 +1,48 @@
+@use "../../styles/colors.scss";
+
+$outline-width: 3px;
+$border-radius: 5px;
+$padding: 10px;
+$icon-size: 1.5em;
+$transition-speed: 400ms;
+
+.socialButton {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: $padding;
+    background-color: colors.$bg-color-900;
+    color: colors.$text-primary; 
+    gap: 1rem;
+
+    outline: $outline-width colors.$bg-color-900 solid;
+    outline-offset: -$outline-width;
+    border-radius: $border-radius;
+    border: none;
+    cursor: pointer;
+    text-decoration: none; 
+    transition:
+        background-color $transition-speed ease,
+        color $transition-speed ease,
+        outline-color $transition-speed ease;
+
+    .icon {
+        font-size: $icon-size;
+        display: block;
+    }
+
+    &:hover {
+        background-color: colors.$bg-color-0;
+        color: colors.$text-quaternary;
+        outline-color: colors.$bg-color-100;
+    }
+
+    &:focus,
+    &:focus-visible {
+        outline-offset: 1px;
+        outline-color: colors.$bg-color-100;
+        box-shadow:
+            0 0 0 2px white,
+            0 0 0 4px colors.$bg-color-100;
+    }
+}

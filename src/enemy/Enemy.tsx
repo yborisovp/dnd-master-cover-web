@@ -20,6 +20,7 @@ import MAccordion from "../regular/accordion/Accordion";
 import MWrapper from "../regular/wrapper/Wrapper";
 import { useAppDispatch } from "../redux/hooks";
 import { removeEnemy } from "../redux/slice/enemies.slice";
+import { removeCharacterByUniqueName } from "../redux/slice/initiative.slice";
 
 export interface EnemyProps {
   localId: number;
@@ -163,7 +164,10 @@ const Enemy = ({ localId, enemy, onUpdate }: EnemyProps) => {
               <MButton
                 isSuggest
                 className={styles.editButton}
-                onClick={() => dispatch(removeEnemy(localId))}
+                onClick={() => {
+                  dispatch(removeEnemy(localId));
+                  dispatch(removeCharacterByUniqueName(``));
+                }}
               >
                 <>
                   <FaTrashCan /> {t("app.enemy.delete")}

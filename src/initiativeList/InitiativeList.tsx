@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 import {
   FaDragon,
@@ -9,15 +9,17 @@ import {
   FaTrash,
   FaUser,
 } from "react-icons/fa";
-import { GiMagicPortal } from "react-icons/gi";
+import { GiBroadsword, GiMagicPortal } from "react-icons/gi";
 
 import { InitiativeCharacter } from "../models/initiative";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import {
   addCharacter,
+  changeBattleState,
   removeCharacter,
   rotateInitiative,
   selectCharacter,
+  selectIsBattleActive,
   updateCharacter,
 } from "../redux/slice/initiative.slice";
 
@@ -32,11 +34,11 @@ const InitiativeList = ({ collapsed }: InitiativeListProps) => {
   const { t } = useTranslation("common");
 
   const dispatch = useAppDispatch();
-  const reduxState = useAppSelector(selectCharacter);
-  const reduxItems: InitiativeCharacter[] = reduxState.initiativeList;
+  const reduxItems = useAppSelector(selectCharacter);
 
   const [editedItems, setEditedItems] = useState<InitiativeCharacter[]>([]);
   const [isEditMode, setIsEditMode] = useState(false);
+  const isBattleStart = useAppSelector(selectIsBattleActive);
 
   const startEditing = () => {
     setEditedItems([...reduxItems]);
@@ -84,6 +86,9 @@ const InitiativeList = ({ collapsed }: InitiativeListProps) => {
       }
     });
     setIsEditMode(false);
+    if (reduxItems.length === 0 && editedIds.size === 0) {
+      dispatch(changeBattleState());
+    }
   };
 
   const cancelEdit = () => {
@@ -125,10 +130,14 @@ const InitiativeList = ({ collapsed }: InitiativeListProps) => {
       </div>
       <div className={styles.listContainer}>
         <div className={styles.tableHeader}>
-          <span>{t("app.initiative-list.type")}</span>
-          <span>{t("app.initiative-list.name")}</span>
-          <span>{t("app.initiative-list.initiative")}</span>
-          {isEditMode && <span>{t("app.initiative-list.actions")}</span>}
+          {isBattleStart && (
+            <>
+              <span>{t("app.initiative-list.type")}</span>
+              <span>{t("app.initiative-list.name")}</span>
+              <span>{t("app.initiative-list.initiative")}</span>
+              {isEditMode && <span>{t("app.initiative-list.actions")}</span>}
+            </>
+          )}
         </div>
 
         {(isEditMode ? editedItems : reduxItems).map((item) => (
@@ -193,8 +202,21 @@ const InitiativeList = ({ collapsed }: InitiativeListProps) => {
         ))}
       </div>
 
-      <div className={styles.controls}>
-        {isEditMode ? (
+      <div className={`${styles.controls} ${!isBattleStart && styles.center}`}>
+        {!isBattleStart ? (
+          <>
+            <MButton
+              className={styles.iconButton}
+              isSuggest={true}
+              onClick={() => dispatch(changeBattleState())}
+            >
+              <div className={styles.swordButton}>
+                <GiBroadsword className={styles.swordLeft} />
+                <GiBroadsword className={styles.swordRight} />
+              </div>
+            </MButton>
+          </>
+        ) : isEditMode ? (
           <>
             <MButton
               className={styles.iconButton}

@@ -1,0 +1,59 @@
+@use "../styles/colors.scss";
+// Variables (optional, customize as needed)
+$transition-duration: 600ms;
+$transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+$svg-height: 2.5rem; // Control overall size here
+$stroke-color: colors.$text-secondary; // Example stroke color
+$stroke-width: 3;
+
+.hamburger {
+  cursor: pointer;
+  display: inline-block; // Or block/flex depending on layout needs
+  padding: 0; // Remove default label padding if any
+  background: none;
+  border: none;
+
+  input {
+    display: none; // Hide the actual checkbox
+  }
+
+  svg {
+    height: $svg-height;
+    /* Define the transition for transforming the whole SVG (rotation) */
+    transition: transform $transition-duration $transition-timing;
+    display: block; // Prevents extra space below inline SVGs
+  }
+
+  .line {
+    fill: none;
+    stroke: $stroke-color;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: $stroke-width;
+    /* Define the transition for transforming the stroke properties */
+    transition: stroke-dasharray $transition-duration $transition-timing,
+                stroke-dashoffset $transition-duration $transition-timing;
+  }
+
+  .lineTopBottom {
+    /* Initial state (hamburger lines) */
+    stroke-dasharray: 12 63; // Values defining the segments for the top/bottom lines
+  }
+
+  // --- Checked State ---
+  input:checked + svg {
+    transform: rotate(-45deg); // Rotate the whole SVG to form the 'X'
+  }
+
+  input:checked + svg .lineTopBottom {
+    /* Animate the top/bottom line into the diagonal parts of the 'X' */
+    stroke-dasharray: 20 300; // New dash array values for the 'X' state
+    stroke-dashoffset: -32.42; // Offset to position the visible dash correctly for 'X'
+  }
+
+  // Middle line doesn't need explicit checked state change in this specific animation
+  // as it's part of the rotation, but you could hide/change it too if needed:
+  // input:checked + svg .line:not(.lineTopBottom) {
+  //   opacity: 0; // Example: hide middle line
+  // }
+}

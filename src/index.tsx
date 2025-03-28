@@ -11,6 +11,8 @@ import LoaderHeartBit from "./regular/loaders/LoaderHeartBit";
 import "./i18n";
 import "./index.css";
 import "./styles/global.scss";
+import { BrowserRouter, Route, Routes } from "react-router";
+import Settings from "./settings/Settings";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -19,7 +21,13 @@ const root = ReactDOM.createRoot(
 root.render(
   <Provider store={store}>
     <PersistGate loading={<LoaderHeartBit />} persistor={persistor}>
-      <App />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<App />}>
+            <Route path="settings" element={<Settings />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </PersistGate>
   </Provider>
 );

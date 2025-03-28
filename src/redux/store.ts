@@ -3,6 +3,7 @@ import initiativeReducer from "./slice/initiative.slice";
 import enemyReducer from "./slice/enemies.slice";
 import settingsReducer from "./slice/settings.slice";
 import feedbackReducer from "./slice/feedback.slice";
+import playersGroup from "./slice/playerGroup.slice";
 
 import storage from "redux-persist/lib/storage";
 
@@ -19,6 +20,7 @@ var rootReducer = combineReducers({
   enemy: enemyReducer,
   settings: settingsReducer,
   feedback: feedbackReducer,
+  playersGroup: playersGroup,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

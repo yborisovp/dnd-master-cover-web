@@ -36,7 +36,8 @@
       "legal": {
         "header": "Legal Information",
         "terms": "Terms of service and privacy policy will appear here"
-      }
+      },
+      "game-button": "Game"
     },
     "initiative-list": {
       "type": "Type",

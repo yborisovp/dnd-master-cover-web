@@ -116,7 +116,8 @@ export const enemySlice = createSlice({
   },
 });
 
-export const { addEnemy, updateEnemy, removeEnemy } = enemySlice.actions;
+export const { addEnemy, updateEnemy, removeEnemy, onLayoutChange } =
+  enemySlice.actions;
 
 // Selectors
 export const selectActiveEnemies = (state: RootState) =>
