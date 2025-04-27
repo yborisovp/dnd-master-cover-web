@@ -15,6 +15,7 @@ services:
       - "traefik.http.routers.react.tls=true"
       - "traefik.http.routers.react.tls.certresolver=letsencrypt"
       - "traefik.http.services.react.loadbalancer.server.port=80"
+      - "traefik.docker.network=coolify"
     networks:
       - coolify
 
