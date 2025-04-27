@@ -11,4 +11,13 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.react.rule=Host(`dnd.yborisov.ru`)"
+      - "traefik.http.routers.react.entrypoints=https"
+      - "traefik.http.routers.react.tls=true"
+      - "traefik.http.routers.react.tls.certresolver=letsencrypt"
       - "traefik.http.services.react.loadbalancer.server.port=80"
+    networks:
+      - coolify
+
+networks:
+  coolify:
+    external: true
