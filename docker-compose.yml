@@ -8,3 +8,5 @@ services:
     ports:
       - "3002:80"
     restart: always
+    labels:
+      - "traefik.http.services.traefik.loadbalancer.server.port=8080"
