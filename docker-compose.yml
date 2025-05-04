@@ -5,20 +5,19 @@ services:
       context: .
       args:
         REACT_APP_API_URL: ${REACT_APP_API_URL}
-    ports:
-      - "3002:80"
     restart: always
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.react.rule=Host(`dnd.yborisov.ru`)"
-      - "traefik.http.routers.react.entrypoints=https"
-      - "traefik.http.routers.react.tls=true"
-      - "traefik.http.routers.react.tls.certresolver=letsencrypt"
-      - "traefik.http.services.react.loadbalancer.server.port=80"
-      - "traefik.docker.network=coolify"
     networks:
       - coolify
-
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=coolify
+      # Route on HTTPS, but allow HTTP for ACME
+      - traefik.http.routers.react.rule=Host(`dnd.yborisov.ru`)
+      - traefik.http.routers.react.entrypoints=http,https
+      - traefik.http.routers.react.tls=true
+      - traefik.http.routers.react.tls.certresolver=letsencrypt
+      - traefik.http.services.react.loadbalancer.server.port=80
 networks:
   coolify:
     external: true
+
