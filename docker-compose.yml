@@ -17,6 +17,7 @@ services:
       # Listen on both HTTP (for ACME) and HTTPS
       - traefik.http.routers.react.entrypoints=http,https
       - traefik.http.routers.react.tls=true
+      - "traefik.http.routers.react.priority=100"
       - traefik.http.routers.react.tls.certresolver=letsencrypt
       # Point Traefik at port 80 in the container
       - traefik.http.services.react.loadbalancer.server.port=80
