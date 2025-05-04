@@ -1,27 +1,60 @@
 version: '3.8'
+
 services:
-  react-app:
+  # <-- Renamed service for clarity
+  dnd-master-cover-web:
     build:
       context: .
       dockerfile: Dockerfile
       args:
-        REACT_APP_API_URL: ${REACT_APP_API_URL}
+        REACT_APP_API_URL: '${REACT_APP_API_URL}'
     restart: always
-    networks:
-      - coolify
+
+    # Traefik labels use clear, descriptive names
     labels:
       - traefik.enable=true
       - traefik.docker.network=coolify
-      # Router matches your hostname
-      - traefik.http.routers.react.rule=Host(`dnd.yborisov.ru`)
-      # Listen on both HTTP (for ACME) and HTTPS
-      - traefik.http.routers.react.entrypoints=http,https
-      - traefik.http.routers.react.tls=true
-      - "traefik.http.routers.react.priority=100"
-      - traefik.http.routers.react.tls.certresolver=letsencrypt
-      # Point Traefik at port 80 in the container
-      - traefik.http.services.react.loadbalancer.server.port=80
+
+      # Primary HTTPS router for our “DND Cover Web” app
+      - traefik.http.routers.dnd-cover-web.rule=Host(`dnd.yborisov.ru`)
+      - traefik.http.routers.dnd-cover-web.entrypoints=http,https
+      - traefik.http.routers.dnd-cover-web.tls=true
+      - traefik.http.routers.dnd-cover-web.tls.certresolver=letsencrypt
+      - traefik.http.routers.dnd-cover-web.priority=100
+
+      # Redirect HTTP → HTTPS
+      - traefik.http.routers.dnd-cover-web-http.entrypoints=http
+      - traefik.http.routers.dnd-cover-web-http.rule=Host(`dnd.yborisov.ru`)
+      - traefik.http.routers.dnd-cover-web-http.middlewares=redirect-to-https
+
+      # Gzip compression middleware
+      - traefik.http.middlewares.gzip.compress=true
+
+      # Service port inside our container
+      - traefik.http.services.dnd-cover-web.loadbalancer.server.port=80
+
+      # Mark as managed by Coolify
+      - coolify.managed=true
+      - coolify.version=4.0.0-beta.415
+      - coolify.applicationId=1
+      - coolify.type=application
+      - coolify.name=dnd-master-cover-web
+      - coolify.resourceName=dnd-master-cover-web
+      - coolify.projectName=my-first-project
+      - coolify.serviceName=dnd-master-cover-web
+      - coolify.environmentName=production
+
+    # A friendly, human-readable container name
+    container_name: dnd-master-cover-web
+
+    environment:
+      REACT_APP_API_URL: '${REACT_APP_API_URL}'
+      COOLIFY_URL: 'https://dnd.yborisov.ru'
+      COOLIFY_FQDN: dnd.yborisov.ru
+      COOLIFY_CONTAINER_NAME: dnd-master-cover-web
 
 networks:
   coolify:
+    external: true
+  v08kc84w4gcw0skws8g8osg0:
     external: true
