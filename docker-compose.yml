@@ -9,6 +9,9 @@ services:
       args:
         REACT_APP_API_URL: '${REACT_APP_API_URL}'
     restart: always
+    networks:
+      - coolify
+      - v08kc84w4gcw0skws8g8osg0
 
     # Traefik labels use clear, descriptive names
     labels:
@@ -56,5 +59,6 @@ services:
 networks:
   coolify:
     external: true
+    name: coolify
   v08kc84w4gcw0skws8g8osg0:
     external: true
