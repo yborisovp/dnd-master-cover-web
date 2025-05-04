@@ -1,8 +1,9 @@
-version: '3'
+version: '3.8'
 services:
   react-app:
     build:
       context: .
+      dockerfile: Dockerfile
       args:
         REACT_APP_API_URL: ${REACT_APP_API_URL}
     restart: always
@@ -11,13 +12,15 @@ services:
     labels:
       - traefik.enable=true
       - traefik.docker.network=coolify
-      # Route on HTTPS, but allow HTTP for ACME
+      # Router matches your hostname
       - traefik.http.routers.react.rule=Host(`dnd.yborisov.ru`)
+      # Listen on both HTTP (for ACME) and HTTPS
       - traefik.http.routers.react.entrypoints=http,https
       - traefik.http.routers.react.tls=true
       - traefik.http.routers.react.tls.certresolver=letsencrypt
+      # Point Traefik at port 80 in the container
       - traefik.http.services.react.loadbalancer.server.port=80
+
 networks:
   coolify:
     external: true
-
