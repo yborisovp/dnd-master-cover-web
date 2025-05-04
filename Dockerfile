@@ -1,5 +1,5 @@
 # Stage 1: Build with Yarn
-FROM node:18-alpine AS builder
+FROM node:slim AS builder
 
 # Set working directory
 WORKDIR /app
@@ -12,7 +12,7 @@ ARG REACT_APP_API_URL
 ENV REACT_APP_API_URL=${REACT_APP_API_URL}
 
 # Install dependencies (frozen lockfile ensures repeatability)
-RUN yarn install --frozen-lockfile
+RUN yarn install
 
 # Copy source files and build
 COPY . .
